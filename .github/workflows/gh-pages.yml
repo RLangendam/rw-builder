@@ -30,7 +30,7 @@ jobs:
           RUSTDOCFLAGS: --cfg doc_cfg
         # --all builds all crates, but with default features for other crates (okay in this case)
         run: |
-          cargo doc --all --features nightly,serde1,getrandom,small_rng
+          cargo doc --all --features bincode,chacha20,flate2,salsa20
           cp utils/redirect.html target/doc/index.html
 
       - name: Setup Pages
