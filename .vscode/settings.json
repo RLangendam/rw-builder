@@ -1,0 +1,21 @@
+{
+    "rust-analyzer.check.command": "clippy",
+    "coverage-gutters.coverageFileNames": [
+        "coverage/tests.lcov",
+    ],
+    "cSpell.words": [
+        "Addrs",
+        "bincode",
+        "chacha",
+        "clippy",
+        "flate",
+        "idents",
+        "keystream",
+        "lcov",
+        "rustc",
+        "rustdoc",
+        "rustup",
+        "serde",
+        "struct"
+    ]
+}

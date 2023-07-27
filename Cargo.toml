@@ -1,0 +1,36 @@
+[package]
+name = "rw-builder"
+version = "0.0.1"
+edition = "2021"
+description = "Provides a convenient way to build `std::io::Read`ers and `std::io::Write`rs by chaining transformations"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/RLangendam/rw-builder"
+keywords = ["read", "write", "builder", "flate2", "cipher", "serde", "anyhow"]
+categories = [
+    "compression",
+    "cryptography",
+    "encoding",
+    "rust-patterns",
+    "algorithms",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.71"
+bincode = { version = "1.3.3", optional = true }
+chacha20 = { version = "0.9.1", optional = true }
+cipher = { version = "0.4.4", optional = true, features = ["std"] }
+flate2 = { version = "1.0.26", optional = true }
+salsa20 = { version = "0.10.2", optional = true }
+serde = { version = "1.0.164", features = ["derive"], optional = true }
+
+[features]
+default = ["bincode", "chacha20", "flate2", "salsa20"]
+bincode = ["dep:bincode", "dep:serde"]
+chacha20 = ["dep:chacha20", "dep:cipher"]
+salsa20 = ["dep:salsa20", "dep:cipher"]
+flate2 = ["dep:flate2"]
+
+[package.metadata.cargo-all-features]
+max_combination_size = 2
