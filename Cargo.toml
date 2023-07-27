@@ -5,7 +5,7 @@ edition = "2021"
 description = "Provides a convenient way to build `std::io::Read`ers and `std::io::Write`rs by chaining transformations"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/RLangendam/rw-builder"
-keywords = ["read", "write", "builder", "flate2", "cipher", "serde", "anyhow"]
+keywords = ["read", "write", "compression", "encoding", "serde"]
 include = ["src/", "LICENSE-*", "README.md", "CHANGELOG.md", "COPYRIGHT.txt"]
 categories = [
     "compression",
