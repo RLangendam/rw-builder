@@ -1,6 +1,8 @@
-use crate::RwBuilder;
-use anyhow::Result;
 use std::io::{BufReader, BufWriter};
+
+use anyhow::Result;
+
+use crate::RwBuilder;
 
 /// Type returned by the `buffered` function on the `RwBuilder` trait.
 /// It is itself an `RwBuilder` so can be chained further.
@@ -31,12 +33,11 @@ where
     B::Writer: std::io::Write,
 {
     type Reader = BufReader<B::Reader>;
+    type Writer = BufWriter<B::Writer>;
 
     fn reader(&self) -> Result<Self::Reader> {
         Ok(BufReader::new(self.builder.reader()?))
     }
-
-    type Writer = BufWriter<B::Writer>;
 
     fn writer(&self) -> Result<Self::Writer> {
         Ok(BufWriter::new(self.builder.writer()?))

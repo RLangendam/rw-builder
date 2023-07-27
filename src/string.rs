@@ -3,8 +3,9 @@ use std::{
     io::{Read, Write},
 };
 
-use crate::RwBuilder;
 use anyhow::Result;
+
+use crate::RwBuilder;
 
 /// Type returned by the `string` function on the `RwBuilder` trait.
 /// It is itself not an `RwBuilder` so can't be chained further.
@@ -56,7 +57,8 @@ where
 pub trait AdhocWriter {
     /// Write a string to a built writer
     /// # Errors
-    /// If either the writer creation or the write operation fails the error is propagated.
+    /// If either the writer creation or the write operation fails the error is
+    /// propagated.
     fn write_string(&self, text: &str) -> Result<()>;
 }
 

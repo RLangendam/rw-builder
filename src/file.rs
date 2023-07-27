@@ -1,6 +1,8 @@
-use crate::RwBuilder;
-use anyhow::Result;
 use std::{fs::OpenOptions, path::PathBuf};
+
+use anyhow::Result;
+
+use crate::RwBuilder;
 
 /// Type for building readers and writers on top of a file handle.
 /// It is itself an `RwBuilder`, but can't be created through one.
@@ -21,19 +23,15 @@ impl Builder {
 
 impl RwBuilder for Builder {
     type Reader = std::fs::File;
+    type Writer = std::fs::File;
 
     fn reader(&self) -> Result<Self::Reader> {
         let options = OpenOptions::new().read(true).open(&self.path)?;
         Ok(options)
     }
 
-    type Writer = std::fs::File;
-
     fn writer(&self) -> Result<Self::Writer> {
-        let options = OpenOptions::new()
-            .create(true)
-            .write(true)
-            .open(&self.path)?;
+        let options = OpenOptions::new().create(true).write(true).open(&self.path)?;
         Ok(options)
     }
 }

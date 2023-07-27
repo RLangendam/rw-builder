@@ -6,6 +6,7 @@ description = "Provides a convenient way to build `std::io::Read`ers and `std::i
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/RLangendam/rw-builder"
 keywords = ["read", "write", "builder", "flate2", "cipher", "serde", "anyhow"]
+include = ["src/", "LICENSE-*", "README.md", "CHANGELOG.md", "COPYRIGHT.txt"]
 categories = [
     "compression",
     "cryptography",
@@ -26,7 +27,7 @@ salsa20 = { version = "0.10.2", optional = true }
 serde = { version = "1.0.164", features = ["derive"], optional = true }
 
 [features]
-default = ["bincode", "chacha20", "flate2", "salsa20"]
+# default = ["bincode", "chacha20", "flate2", "salsa20"]
 bincode = ["dep:bincode", "dep:serde"]
 chacha20 = ["dep:chacha20", "dep:cipher"]
 salsa20 = ["dep:salsa20", "dep:cipher"]
@@ -34,3 +35,6 @@ flate2 = ["dep:flate2"]
 
 [package.metadata.cargo-all-features]
 max_combination_size = 2
+
+[package.metadata.docs.rs]
+all-features = true

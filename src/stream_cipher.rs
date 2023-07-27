@@ -12,8 +12,8 @@ use salsa20::Salsa20;
 
 use crate::RwBuilder;
 
-/// Type returned by the `chacha20` and `salsa20` functions on the `RwBuilder` trait.
-/// It is itself an `RwBuilder` so can be chained further.
+/// Type returned by the `chacha20` and `salsa20` functions on the `RwBuilder`
+/// trait. It is itself an `RwBuilder` so can be chained further.
 #[derive(Debug)]
 pub struct Builder<B, C, K, N>
 where
@@ -36,13 +36,8 @@ where
     C: StreamCipher,
 {
     /// Create a new cipher builder from a key and a nonce
-    pub fn new(builder: B, key: K, nonce: N) -> Self {
-        Self {
-            builder,
-            key,
-            nonce,
-            _marker: PhantomData::default(),
-        }
+    pub const fn new(builder: B, key: K, nonce: N) -> Self {
+        Self { builder, key, nonce, _marker: PhantomData }
     }
 }
 
@@ -103,14 +98,13 @@ where
     Self: CipherFactory<C>,
 {
     type Reader = Reader<B::Reader, C>;
+    type Writer = Writer<B::Writer, C>;
 
     fn reader(&self) -> Result<Self::Reader> {
         let reader = self.builder.reader()?;
         let cipher = self.create_cipher();
         Ok(Reader { cipher, reader })
     }
-
-    type Writer = Writer<B::Writer, C>;
 
     fn writer(&self) -> Result<Self::Writer> {
         let writer = self.builder.writer()?;

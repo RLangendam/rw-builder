@@ -1,0 +1,84 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master, '0.[0-9]+' ]
+  pull_request:
+    branches: [ master, '0.[0-9]+' ]
+
+permissions:
+  contents: read #  to fetch code (actions/checkout)
+
+jobs:
+  check-doc:
+    name: Check doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@nightly
+      - run: cargo install cargo-deadlinks
+      - name: doc (rand)
+        env:
+          RUSTDOCFLAGS: --cfg doc_cfg
+        # --all builds all crates, but with default features for other crates (okay in this case)
+        run: cargo deadlinks --ignore-fragments -- --all --features bincode,chacha20,flate2,salsa20
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-unknown-linux-gnu
+            toolchain: stable
+          - os: ubuntu-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-unknown-linux-gnu
+            toolchain: nightly
+          - os: macos-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-apple-darwin
+            toolchain: stable
+          - os: windows-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-pc-windows-gnu
+            toolchain: stable
+          - os: windows-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-pc-windows-msvc
+            toolchain: beta
+          - os: windows-latest
+            deps: cargo install cargo-all-features
+            target: x86_64-pc-windows-msvc
+            toolchain: nightly
+          - os: ubuntu-latest
+            deps: sudo apt-get update ; sudo apt install gcc-multilib ; cargo install cargo-all-features
+            target: i686-unknown-linux-gnu
+            toolchain: nightly
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          target: ${{ matrix.target }}
+          toolchain: ${{ matrix.toolchain }}
+      - run: ${{ matrix.deps }}
+      - name: Test
+        run: |
+          cargo test --target ${{ matrix.target }} --all-features
+          cargo test-all-features --target ${{ matrix.target }}
+
+  test-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+            target: aarch64-apple-ios
+      - name: Build top-level only
+        run: cargo build --target=aarch64-apple-ios

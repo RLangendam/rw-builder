@@ -1,9 +1,10 @@
-use crate::RwBuilder;
 use anyhow::Result;
 use flate2::{Compression, CrcReader, CrcWriter};
 
-/// Type returned by the `deflate`, `gz` and `zlib` functions on the `RwBuilder` trait.
-/// It is itself an `RwBuilder` so can be chained further.
+use crate::RwBuilder;
+
+/// Type returned by the `deflate`, `gz` and `zlib` functions on the `RwBuilder`
+/// trait. It is itself an `RwBuilder` so can be chained further.
 #[derive(Debug)]
 pub struct CompressionBuilder<B, C>
 where
@@ -28,13 +29,12 @@ where
     C::Encoder: std::io::Write,
 {
     type Reader = C::Decoder;
+    type Writer = C::Encoder;
 
     fn reader(&self) -> Result<Self::Reader> {
         let reader = self.builder.reader()?;
         Ok(self.coder.decoder(reader))
     }
-
-    type Writer = C::Encoder;
 
     fn writer(&self) -> Result<Self::Writer> {
         let writer = self.builder.writer()?;
@@ -42,7 +42,8 @@ where
     }
 }
 
-/// Implementors like `Deflate`, `Gz` and `Zlib` create the associated encoders and decoders.
+/// Implementors like `Deflate`, `Gz` and `Zlib` create the associated encoders
+/// and decoders.
 pub trait CoderBuilder<R, W> {
     /// The type of encoder created
     type Encoder;
@@ -66,13 +67,12 @@ where
     R: std::io::Read,
     W: std::io::Write,
 {
+    type Decoder = flate2::read::ZlibDecoder<R>;
     type Encoder = flate2::write::ZlibEncoder<W>;
 
     fn encoder(&self, writer: W, compression: Compression) -> Self::Encoder {
         flate2::write::ZlibEncoder::new(writer, compression)
     }
-
-    type Decoder = flate2::read::ZlibDecoder<R>;
 
     fn decoder(&self, reader: R) -> Self::Decoder {
         flate2::read::ZlibDecoder::new(reader)
@@ -87,11 +87,7 @@ where
 {
     /// Create the encoder/decoder builder
     fn new(builder: B, compression: Compression) -> CompressionBuilder<B, Self> {
-        CompressionBuilder {
-            builder,
-            compression,
-            coder: Self::default(),
-        }
+        CompressionBuilder { builder, compression, coder: Self::default() }
     }
 }
 
@@ -106,13 +102,12 @@ where
     R: std::io::Read,
     W: std::io::Write,
 {
+    type Decoder = flate2::read::GzDecoder<R>;
     type Encoder = flate2::write::GzEncoder<W>;
 
     fn encoder(&self, writer: W, compression: Compression) -> Self::Encoder {
         flate2::write::GzEncoder::new(writer, compression)
     }
-
-    type Decoder = flate2::read::GzDecoder<R>;
 
     fn decoder(&self, reader: R) -> Self::Decoder {
         flate2::read::GzDecoder::new(reader)
@@ -130,13 +125,12 @@ where
     R: std::io::Read,
     W: std::io::Write,
 {
+    type Decoder = flate2::read::DeflateDecoder<R>;
     type Encoder = flate2::write::DeflateEncoder<W>;
 
     fn encoder(&self, writer: W, compression: Compression) -> Self::Encoder {
         flate2::write::DeflateEncoder::new(writer, compression)
     }
-
-    type Decoder = flate2::read::DeflateDecoder<R>;
 
     fn decoder(&self, reader: R) -> Self::Decoder {
         flate2::read::DeflateDecoder::new(reader)
@@ -146,7 +140,8 @@ where
 impl<B> Constructor<B> for Deflate where B: RwBuilder {}
 
 /// Type returned by the `crc` function on the `RwBuilder` trait.
-/// It is itself an `RwBuilder` so can be chained further, although this is an uncommon scenario
+/// It is itself an `RwBuilder` so can be chained further, although this is an
+/// uncommon scenario
 #[derive(Debug)]
 pub struct CrcBuilder<B>
 where
@@ -174,12 +169,11 @@ where
     B::Writer: std::io::Write,
 {
     type Reader = CrcReader<B::Reader>;
+    type Writer = CrcWriter<B::Writer>;
 
     fn reader(&self) -> Result<Self::Reader> {
         Ok(CrcReader::new(self.builder.reader()?))
     }
-
-    type Writer = CrcWriter<B::Writer>;
 
     fn writer(&self) -> Result<Self::Writer> {
         Ok(CrcWriter::new(self.builder.writer()?))

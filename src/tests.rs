@@ -3,9 +3,8 @@ use std::{env::temp_dir, process::Command};
 #[cfg(feature = "flate2")]
 use ::flate2::Compression;
 
-use crate::string::AdhocWriter;
-
 use super::*;
+use crate::string::AdhocWriter;
 
 fn write_and_read_string<B>(builder: B, input: &str) -> Result<String>
 where
@@ -49,9 +48,7 @@ fn crc() {
     {
         let mut reader = builder.reader().expect("Reader couldn't be created.");
         let mut buffer = vec![];
-        let bytes_read = reader
-            .read_to_end(&mut buffer)
-            .expect("Couldn't read into buffer.");
+        let bytes_read = reader.read_to_end(&mut buffer).expect("Couldn't read into buffer.");
         assert_eq!(bytes_read, 5);
         assert_eq!(reader.crc().sum(), expected_crc);
         assert_eq!(buffer, data);
@@ -97,13 +94,8 @@ fn process_stdout() {
 #[test]
 fn process_child() {
     let command = Command::new("tee");
-    let builder = ProcessBuilder::new(command)
-        .spawn()
-        .expect("Couldn't spawn process")
-        .string();
-    builder
-        .write_string("Hello world.\n")
-        .expect("Couldn't write string.");
+    let builder = ProcessBuilder::new(command).spawn().expect("Couldn't spawn process").string();
+    builder.write_string("Hello world.\n").expect("Couldn't write string.");
     assert_eq!(builder.to_string(), "Hello world.\n");
 }
 

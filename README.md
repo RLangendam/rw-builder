@@ -1,5 +1,23 @@
 # Reader Writer Builder
 
+
+[![Test Status](https://github.com/rlangendam/rw-builder/workflows/Tests/badge.svg?event=push)](https://github.com/rlangendam/rw-builder/actions)
+[![Crate](https://img.shields.io/crates/v/rw-builder.svg)](https://crates.io/crates/rw-builder)
+[![API](https://img.shields.io/badge/api-master-yellow.svg)](https://rlangendam.github.io/rw-builder/index.html)
+[![API](https://docs.rs/rw-builder/badge.svg)](https://docs.rs/rw-builder)
+
+- [Reader Writer Builder](#reader-writer-builder)
+  - [Introduction](#introduction)
+  - [Usage](#usage)
+  - [Warning](#warning)
+  - [Example](#example)
+  - [Sources and Sinks](#sources-and-sinks)
+  - [Features](#features)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+## Introduction
+
 This crate provides a convenient way to build `std::io::Read`ers and `std::io::Write`rs by chaining transformations. Since readers and writers are defined simultaneously through the same builder they can be used as inverses of each other.
 
 ## Usage
@@ -113,10 +131,10 @@ To provide the functionality of many different readers and writers this crate ha
 
 ## Contributing
 
-See CONTRIBUTING.md.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
 The rw-builder crate is primarily distributed under the terms of both the MIT license and the Apache License (Version 2.0), with portions covered by various BSD-like licenses.
 
-See LICENSE-APACHE.txt, LICENSE-MIT.txt, and COPYRIGHT.txt for details.
+See [LICENSE-APACHE.txt](LICENSE-APACHE.txt), [LICENSE-MIT.txt](LICENSE-MIT.txt), and [COPYRIGHT.txt](COPYRIGHT.txt) for details.

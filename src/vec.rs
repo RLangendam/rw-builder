@@ -1,6 +1,8 @@
-use crate::RwBuilder;
-use anyhow::Result;
 use std::{cell::RefCell, cmp::min, rc::Rc};
+
+use anyhow::Result;
+
+use crate::RwBuilder;
 
 /// Type for building readers and writers on top of a `Vec` in memory.
 /// It is itself an `RwBuilder`, but can't be created through one.
@@ -14,20 +16,14 @@ pub struct Builder {
 
 impl RwBuilder for Builder {
     type Reader = Reader;
-
-    fn reader(&self) -> Result<Self::Reader> {
-        Ok(Reader {
-            buffer: Rc::clone(&self.buffer),
-            bytes_read: 0,
-        })
-    }
-
     type Writer = Writer;
 
+    fn reader(&self) -> Result<Self::Reader> {
+        Ok(Reader { buffer: Rc::clone(&self.buffer), bytes_read: 0 })
+    }
+
     fn writer(&self) -> Result<Self::Writer> {
-        Ok(Writer {
-            buffer: Rc::clone(&self.buffer),
-        })
+        Ok(Writer { buffer: Rc::clone(&self.buffer) })
     }
 }
 

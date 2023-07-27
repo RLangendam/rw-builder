@@ -4,6 +4,8 @@
         "serayuzgur.crates",
         "tamasfe.even-better-toml",
         "streetsidesoftware.code-spell-checker",
-        "ryanluker.vscode-coverage-gutters"
+        "ryanluker.vscode-coverage-gutters",
+        "yzhang.markdown-all-in-one",
+        "github.vscode-github-actions"
     ]
 }

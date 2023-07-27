@@ -14,6 +14,7 @@
         "lcov",
         "rustc",
         "rustdoc",
+        "rustfmt",
         "rustup",
         "serde",
         "struct"

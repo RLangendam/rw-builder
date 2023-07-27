@@ -1,6 +1,8 @@
-use crate::RwBuilder;
-use anyhow::Result;
 use std::net::{TcpStream, ToSocketAddrs};
+
+use anyhow::Result;
+
+use crate::RwBuilder;
 
 /// Type for building readers and writers on top of a connected TCP socket.
 /// It is itself an `RwBuilder`, but can't be created through one.
@@ -29,13 +31,12 @@ where
     A: ToSocketAddrs,
 {
     type Reader = TcpStream;
+    type Writer = TcpStream;
 
     fn reader(&self) -> Result<Self::Reader> {
         let stream = TcpStream::connect(&self.addr)?;
         Ok(stream)
     }
-
-    type Writer = TcpStream;
 
     fn writer(&self) -> Result<Self::Writer> {
         let stream = TcpStream::connect(&self.addr)?;

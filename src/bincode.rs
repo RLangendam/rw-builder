@@ -1,5 +1,6 @@
-use crate::{RwBuilder, SerDe};
 use anyhow::Result;
+
+use crate::{RwBuilder, SerDe};
 
 /// Type returned by the `bincode` function on the `RwBuilder` trait.
 /// It is itself not an `RwBuilder` so can't be chained further.

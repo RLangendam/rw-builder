@@ -1,11 +1,23 @@
 # Contributing
 
+- [Contributing](#contributing)
+  - [Introduction](#introduction)
+  - [Quality control](#quality-control)
+  - [Visual Studio Code](#visual-studio-code)
+  - [Readers and Writers](#readers-and-writers)
+  - [Sources and Sinks](#sources-and-sinks)
+  - [Buffering](#buffering)
+  - [no\_std](#no_std)
+  - [Automated tests](#automated-tests)
+  - [Maintenance and Release process](#maintenance-and-release-process)
+
+## Introduction
+
 Thanks for your initiative to help improve this crate. We recommend you develop on Linux and use Visual Studio Code with the recommended extensions.
 
 ## Quality control
 
-Since this crate doesn't have a pipeline yet we need to manually verify the quality of this crate.
-So before you create a pull request make sure
+Before you create a pull request make sure
 * clippy is happy: `cargo check` and `cargo clippy`.
 * all tests pass: `cargo test --all-features` and `cargo test-all-features`.
   * The latter command requires you to have done `cargo install cargo-all-features`. It will test all relevant combinations of features as specified in the `package.metadata.cargo-all-features` section of `Cargo.toml`.
@@ -14,12 +26,12 @@ So before you create a pull request make sure
 * there are no spelling errors.
   * You can use the recommended 'Code Spell Checker' VSCode-plugin for that.
 * the code is formatted: `cargo fmt`.
-  * You can also use 'format on save' in VSCode.
+  * You can also use 'format on save' in VSCode. Make sure to use a nightly toolchain to be able to use all formatting options specified in `.rustfmt.toml`.
 
 ## Visual Studio Code
 
 For most of the aforementioned actions test- and build-tasks have been defined in `tasks.json`.
-The recommended VSCode extensions are related to Rust, spell checking and code coverage gutters. Make sure to install them if you use VSCode.
+The recommended VSCode extensions are related to Rust, spell checking, code coverage gutters and markdown. Make sure to install them if you use VSCode.
 
 The code coverage gutters plugin has been pre-configured to look for code coverage information in `coverage/tests.lcov` which is also where the `test_coverage.sh` script writes the coverage information. You may need to press the "ⵔ Watch" button in the status bar to show the gutters after you run the script. There's also an HTML report available at `coverage/html/index.html`.
 
@@ -41,8 +53,17 @@ Although this crate supports buffering through `BufReader` and `BufWriter` it do
 
 It would be nice to add a `no_std` feature to enable the use of this crate in embedded programming. See also, [A no_std Rust Environment](https://docs.rust-embedded.org/book/intro/no-std.html).
 
+## Automated tests
+
+There are currently only unit tests, all bundled up in `src/tests.rs`. As the number of tests grows, or integration- and e2e-tests become necessary we need to consider different ways of organizing them.
+
+There are no doc-tests yet, but these would be a welcome addition to provide live documentation. Just make sure to replace existing tests if they cover the same functionality.
+
 ## Maintenance and Release process
 
 * Regularly update the crate's dependencies: `cargo update`.
 * Make sure the version number is increased, if necessary, in accordance with [semver](https://semver.org/).
+* Execute all steps in the [Quality control](#quality-control) section.
 * Build and verify the documentation: `cargo doc` -> `target/doc/rw-builder/index.html`.
+* Push to the remote `master`.
+* `cargo publish`.
