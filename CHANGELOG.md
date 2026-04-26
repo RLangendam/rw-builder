@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-27
+
 ### Added
 - `base64` text encoding modifier stream.
 - `serde_json` terminal sink for serialization.
-- `postcard` terminal sink for binary serialization (no_std compatible alternative to bincode).
-- Tests and architectural documentation detailing the interaction between Sinks, Modifiers, and correct combinator ordering.
+- `postcard` terminal sink for binary serialization (`no_std` compatible alternative to `bincode`).
+- Criterion benchmark suite demonstrating the near-zero overhead of the builder abstraction.
+- Documentation and badges for docs.rs.
+
+### Changed
+- Converted all examples into heavily documented integration test suites within the `tests/` directory.
+- Fixed unused imports warnings during feature combinatorial testing.
+- Restored standard `rustfmt` configuration for improved CI compatibility.
 
 ## [0.1.0] - 2026-04-26
 
@@ -56,6 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI/CD pipeline
 - Documentation and examples
 
+[Unreleased]: https://github.com/RLangendam/rw-builder/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/RLangendam/rw-builder/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RLangendam/rw-builder/compare/v0.0.2...v0.1.0
 [0.0.2]: https://github.com/RLangendam/rw-builder/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/RLangendam/rw-builder/releases/tag/v0.0.1
