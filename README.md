@@ -3,7 +3,6 @@
 
 [![Test Status](https://github.com/rlangendam/rw-builder/workflows/Tests/badge.svg?event=push)](https://github.com/rlangendam/rw-builder/actions)
 [![Crate](https://img.shields.io/crates/v/rw-builder.svg)](https://crates.io/crates/rw-builder)
-[![API](https://img.shields.io/badge/api-master-yellow.svg)](https://rlangendam.github.io/rw-builder/index.html)
 [![API](https://docs.rs/rw-builder/badge.svg)](https://docs.rs/rw-builder)
 
 - [Reader Writer Builder](#reader-writer-builder)

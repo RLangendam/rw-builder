@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "master"
+
+  # Maintain Rust dependencies
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "master"
+    # Group updates to reduce PR noise
+    groups:
+      dependencies:
+        patterns:
+          - "*"
