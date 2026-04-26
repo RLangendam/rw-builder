@@ -33,6 +33,24 @@ fn compression() {
     test_string(VecBuilder::default().deflate(Compression::fast()));
 }
 
+#[cfg(feature = "zstd")]
+#[test]
+fn zstd_compression() {
+    test_string(VecBuilder::default().zstd(3));
+}
+
+#[cfg(feature = "bzip2")]
+#[test]
+fn bzip2_compression() {
+    test_string(VecBuilder::default().bzip2(bzip2::Compression::fast()));
+}
+
+#[cfg(feature = "lz4_flex")]
+#[test]
+fn lz4_flex_compression() {
+    test_string(VecBuilder::default().lz4_flex());
+}
+
 #[cfg(feature = "flate2")]
 #[test]
 fn crc() {

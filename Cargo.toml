@@ -26,13 +26,18 @@ flate2 = { version = "1.0.26", optional = true }
 salsa20 = { version = "0.11.0", optional = true }
 serde = { version = "1.0.164", features = ["derive"], optional = true }
 thiserror = "2.0.18"
+zstd = { version = "0.13.1", optional = true }
+bzip2 = { version = "0.4.4", optional = true }
+lz4_flex = { version = "0.11.3", optional = true }
 
 [features]
-# default = ["wincode", "chacha20", "flate2", "salsa20"]
 wincode = ["dep:wincode", "dep:serde"]
 chacha20 = ["dep:chacha20", "dep:cipher"]
 salsa20 = ["dep:salsa20", "dep:cipher"]
 flate2 = ["dep:flate2"]
+zstd = ["dep:zstd"]
+bzip2 = ["dep:bzip2"]
+lz4_flex = ["dep:lz4_flex"]
 
 [package.metadata.cargo-all-features]
 max_combination_size = 2

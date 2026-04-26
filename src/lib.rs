@@ -118,6 +118,25 @@ pub use tcp_stream::Builder as TcpStreamBuilder;
 mod vec;
 pub use vec::Builder as VecBuilder;
 
+/// Provides the `ZstdBuilder` wrapper around the `zstd` algorithm.
+#[cfg(feature = "zstd")]
+mod zstd;
+#[cfg(feature = "zstd")]
+pub use crate::zstd::ZstdBuilder;
+
+/// Provides the `BzBuilder` wrapper around the `bzip2` algorithm.
+#[cfg(feature = "bzip2")]
+mod bzip2;
+#[cfg(feature = "bzip2")]
+pub use crate::bzip2::{BzBuilder, Compression as BzCompression};
+
+/// Provides the `Lz4Builder` wrapper around the `lz4_flex` algorithm.
+#[cfg(feature = "lz4_flex")]
+mod lz4_flex;
+#[cfg(feature = "lz4_flex")]
+pub use crate::lz4_flex::Lz4Builder;
+
+
 /// The trait that can construct readers and writers, but also has chainable
 /// functions to create more complex builders
 pub trait RwBuilder
@@ -207,6 +226,28 @@ pub trait RwBuilderExt: RwBuilder {
     fn zlib(self, compression: Compression) -> CompressionBuilder<Self, flate2::Zlib> {
         flate2::Zlib::new(self, compression)
     }
+
+    /// Transformation that decompresses while reading and compresses while
+    /// writing using the Zstd algorithm
+    #[cfg(feature = "zstd")]
+    fn zstd(self, level: i32) -> ZstdBuilder<Self> {
+        ZstdBuilder::new(self, level)
+    }
+
+    /// Transformation that decompresses while reading and compresses while
+    /// writing using the bzip2 algorithm
+    #[cfg(feature = "bzip2")]
+    fn bzip2(self, compression: BzCompression) -> BzBuilder<Self> {
+        BzBuilder::new(self, compression)
+    }
+
+    /// Transformation that decompresses while reading and compresses while
+    /// writing using the `lz4_flex` algorithm
+    #[cfg(feature = "lz4_flex")]
+    fn lz4_flex(self) -> Lz4Builder<Self> {
+        Lz4Builder::new(self)
+    }
+
 }
 
 impl<T: RwBuilder> RwBuilderExt for T {}
