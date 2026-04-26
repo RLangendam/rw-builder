@@ -1,3 +1,5 @@
+#![cfg(all(feature = "base64", feature = "serde_json"))]
+
 use rw_builder::{RwBuilderExt, VecBuilder};
 use serde::{Deserialize, Serialize};
 
@@ -8,7 +10,8 @@ struct UserConfig {
     notifications_enabled: bool,
 }
 
-fn main() {
+#[test]
+fn json_streaming_test() {
     // We want to base64 encode our JSON so it's safely printable ASCII
     let builder = VecBuilder::default().base64().serde_json();
 

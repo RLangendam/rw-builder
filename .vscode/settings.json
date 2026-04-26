@@ -27,7 +27,7 @@
         "wincode",
         "zstd"
     ],
-    "editor.defaultFormatter": "jinxdash.prettier-rust",
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "nixEnvSelector.suggestion": false,
     "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
 }

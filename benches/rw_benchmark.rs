@@ -1,6 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion, Throughput};
-use std::hint::black_box;
 use rw_builder::{RwBuilder, RwBuilderExt, VecBuilder};
+use std::hint::black_box;
 use std::io::Write;
 
 fn bench_rw_builder(c: &mut Criterion) {

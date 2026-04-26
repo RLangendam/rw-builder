@@ -1,8 +1,11 @@
+#![cfg(all(feature = "aes_ctr", feature = "flate2", feature = "postcard"))]
+
 use flate2::Compression;
 use rw_builder::{FileBuilder, RwBuilderExt};
 use std::env::temp_dir;
 
-fn main() {
+#[test]
+fn secure_archival_test() {
     let file_path = temp_dir().join("secure_archive.bin");
     let key = [0x42; 32]; // AES-256 Key
     let nonce = [0x24; 16]; // AES Nonce
@@ -17,14 +20,14 @@ fn main() {
     let sensitive_data = vec!["Secret Agent 007", "Project X Details", "Launch Codes"];
 
     // 1. Save data (Serialization -> Compression -> Encryption -> File)
-    builder
-        .save(&sensitive_data)
-        .expect("Failed to secure archive data");
+    builder.save(&sensitive_data).expect("Failed to secure archive data");
     println!("Successfully archived sensitive data to {:?}", file_path);
 
     // 2. Load data (File -> Decryption -> Decompression -> Deserialization)
     let extracted_data: Vec<String> = builder.load().expect("Failed to extract archive");
     println!("Extracted data: {:?}", extracted_data);
+
+    assert_eq!(sensitive_data, extracted_data);
 
     std::fs::remove_file(file_path).unwrap();
 }
