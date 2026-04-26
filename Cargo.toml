@@ -1,6 +1,6 @@
 [package]
 name = "rw-builder"
-version = "0.0.2"
+version = "0.1.0"
 edition = "2021"
 rust-version = "1.89"
 description = "Provides a convenient way to build `std::io::Read`ers and `std::io::Write`rs by chaining transformations"

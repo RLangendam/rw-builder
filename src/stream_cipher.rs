@@ -4,15 +4,15 @@ use std::{
 };
 
 use crate::Result;
+#[cfg(feature = "aes_ctr")]
+use aes::{Aes128, Aes256};
 #[cfg(feature = "chacha20")]
 use chacha20::ChaCha20;
 use cipher::{KeyIvInit, StreamCipher};
-#[cfg(feature = "salsa20")]
-use salsa20::Salsa20;
-#[cfg(feature = "aes_ctr")]
-use aes::{Aes128, Aes256};
 #[cfg(feature = "aes_ctr")]
 use ctr::Ctr128BE;
+#[cfg(feature = "salsa20")]
+use salsa20::Salsa20;
 
 use crate::RwBuilder;
 
@@ -93,7 +93,6 @@ pub type Aes128CtrBuilder<B> = Builder<B, Aes128Ctr, Aes128Key, AesNonce>;
 /// The type returned by the `aes256_ctr` function in the `RwBuilder` trait
 #[cfg(feature = "aes_ctr")]
 pub type Aes256CtrBuilder<B> = Builder<B, Aes256Ctr, Aes256Key, AesNonce>;
-
 
 /// Recipe for how to create a cipher
 trait CipherFactory<C> {

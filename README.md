@@ -25,7 +25,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rw-builder = "0.0.2"
+rw-builder = "0.1.0"
 ```
 
 ## Warning
@@ -38,7 +38,7 @@ Let's say you have some application state you want to encrypt and store on disk.
 
 ```rust
 use flate2::Compression;
-use rw_builder::{FileBuilder, Result, RwBuilder, RwBuilderExt, SerDe};
+use rw_builder::{FileBuilder, Result, RwBuilder, RwBuilderExt};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -122,10 +122,19 @@ You may have noticed that the `FileBuilder` struct and the `wincode` function ha
 ## Features
 
 To provide the functionality of many different readers and writers this crate has many optional dependencies which are enabled through a predefined set of features. The example above requires the `wincode`, `chacha20` and `flate2` features. Currently, the following features are available:
-* `wincode`: includes the `serde` and `wincode` crates and enables the `SerDe` trait and the `wincode` function on the `RwBuilder` trait.
-* `chacha20`: includes the `cipher` and `chacha20` crates and enables the `chacha20` function on the `RwBuilder` trait.
-* `salsa20`: includes the `cipher` and `salsa20` crates and enables the `salsa20` function on the `RwBuilder` trait.
-* `flate2`: includes the `flate2` crate and enables the `crc`, `deflate`, `gz` and `zlib` functions on the `RwBuilder` trait.
+* `wincode`: includes the `serde` and `wincode` crates and enables the `wincode` sink on the `RwBuilderExt` trait.
+* `rmp_serde`: includes the `serde` and `rmp-serde` crates and enables the `rmp_serde` MessagePack sink on the `RwBuilderExt` trait.
+* `flate2`: includes the `flate2` crate and enables the `crc`, `deflate`, `gz` and `zlib` compressions.
+* `zstd`: includes the `zstd` crate and enables `zstd` compression.
+* `bzip2`: includes the `bzip2` crate and enables `bzip2` compression.
+* `lz4_flex`: includes the `lz4_flex` crate and enables `lz4_flex` compression.
+* `chacha20`: includes the `cipher` and `chacha20` crates and enables `chacha20` symmetric encryption.
+* `salsa20`: includes the `cipher` and `salsa20` crates and enables `salsa20` symmetric encryption.
+* `aes_ctr`: includes the `aes` and `ctr` crates and enables `aes128_ctr` and `aes256_ctr` symmetric encryption.
+* `digest`: includes the `digest` crate and enables the generic `hash` checksumming combinator.
+* `sha2`: includes the `sha2` crate and enables `sha256` and `sha512` hashing.
+* `sha3`: includes the `sha3` crate and enables `sha3_256` and `sha3_512` hashing.
+* `crc32fast`: includes the `crc32fast` crate and enables `crc32fast` checksumming.
 
 ## Development Environment
 

@@ -99,14 +99,14 @@ pub use process::Builder as ProcessBuilder;
 /// provided by the flate2 crate.
 #[cfg(any(feature = "chacha20", feature = "salsa20", feature = "aes_ctr"))]
 mod stream_cipher;
-#[cfg(feature = "chacha20")]
-pub use stream_cipher::{ChaCha20Builder, ChaCha20Key, ChaCha20Nonce};
-#[cfg(feature = "salsa20")]
-pub use stream_cipher::{Salsa20Builder, Salsa20Key, Salsa20Nonce};
 #[cfg(feature = "aes_ctr")]
 pub use stream_cipher::{
     Aes128Ctr, Aes128CtrBuilder, Aes128Key, Aes256Ctr, Aes256CtrBuilder, Aes256Key, AesNonce,
 };
+#[cfg(feature = "chacha20")]
+pub use stream_cipher::{ChaCha20Builder, ChaCha20Key, ChaCha20Nonce};
+#[cfg(feature = "salsa20")]
+pub use stream_cipher::{Salsa20Builder, Salsa20Key, Salsa20Nonce};
 
 /// Provides the `StringBuilder` type which is a sink without serde
 mod string;

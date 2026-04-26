@@ -42,6 +42,7 @@ where
     /// Returns an error if the underlying writer fails or if the serialization fails.
     pub fn save<T: Serialize>(&self, item: &T) -> Result<()> {
         let mut writer = self.builder.writer()?;
-        rmp_serde::encode::write(&mut writer, item).map_err(|e| crate::error::Error::Other(e.to_string()))
+        rmp_serde::encode::write(&mut writer, item)
+            .map_err(|e| crate::error::Error::Other(e.to_string()))
     }
 }

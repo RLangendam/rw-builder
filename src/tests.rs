@@ -183,14 +183,20 @@ fn sha256_hash() {
         let mut writer = builder.writer().unwrap();
         writer.write_all(data).unwrap();
         let hash = writer.finalize();
-        assert_eq!(format!("{:x}", hash), "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+        assert_eq!(
+            format!("{:x}", hash),
+            "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+        );
     }
     {
         let mut reader = builder.reader().unwrap();
         let mut buffer = Vec::new();
         let _bytes = reader.read_to_end(&mut buffer).unwrap();
         let hash = reader.finalize();
-        assert_eq!(format!("{:x}", hash), "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+        assert_eq!(
+            format!("{:x}", hash),
+            "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+        );
         assert_eq!(buffer, data);
     }
 }

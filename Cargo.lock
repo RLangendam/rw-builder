@@ -340,7 +340,7 @@ dependencies = [
 
 [[package]]
 name = "rw-builder"
-version = "0.0.2"
+version = "0.1.0"
 dependencies = [
  "aes",
  "bzip2",

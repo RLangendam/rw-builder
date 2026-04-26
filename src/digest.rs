@@ -87,7 +87,7 @@ where
     pub fn finalize(self) -> digest::Output<D> {
         self.hasher.finalize()
     }
-    
+
     /// Unwraps the inner reader.
     pub fn into_inner(self) -> R {
         self.inner
@@ -133,7 +133,7 @@ where
     pub fn finalize(self) -> digest::Output<D> {
         self.hasher.finalize()
     }
-    
+
     /// Unwraps the inner writer.
     pub fn into_inner(self) -> W {
         self.inner
