@@ -160,6 +160,20 @@ pub use crate::crc32fast::{Crc32FastBuilder, Crc32FastReader, Crc32FastWriter};
 #[cfg(feature = "rmp_serde")]
 pub mod rmp_serde;
 
+/// Provides the `Base64Builder` which encodes/decodes streams in base64.
+#[cfg(feature = "base64")]
+pub mod base64;
+#[cfg(feature = "base64")]
+pub use crate::base64::Base64Builder;
+
+/// Provides the `Builder` for `serde_json` (JSON serialization/deserialization).
+#[cfg(feature = "serde_json")]
+pub mod serde_json;
+
+/// Provides the `Builder` for `postcard` (Binary serialization/deserialization).
+#[cfg(feature = "postcard")]
+pub mod postcard;
+
 /// The trait that can construct readers and writers, but also has chainable
 /// functions to create more complex builders
 pub trait RwBuilder
@@ -310,6 +324,24 @@ pub trait RwBuilderExt: RwBuilder {
     #[cfg(feature = "rmp_serde")]
     fn rmp_serde(self) -> rmp_serde::Builder<Self> {
         rmp_serde::Builder::new(self)
+    }
+
+    /// Transformation that encodes/decodes in base64 format.
+    #[cfg(feature = "base64")]
+    fn base64(self) -> Base64Builder<Self> {
+        Base64Builder::new(self)
+    }
+
+    /// Sink that loads and saves values using `serde_json` (JSON).
+    #[cfg(feature = "serde_json")]
+    fn serde_json(self) -> serde_json::Builder<Self> {
+        serde_json::Builder::new(self)
+    }
+
+    /// Sink that loads and saves values using `postcard` (Binary format).
+    #[cfg(feature = "postcard")]
+    fn postcard(self) -> postcard::Builder<Self> {
+        postcard::Builder::new(self)
     }
 
     /// Transformation that decrypts while reading and encrypts while writing

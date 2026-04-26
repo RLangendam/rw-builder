@@ -22,7 +22,8 @@ where
     feature = "zstd",
     feature = "bzip2",
     feature = "lz4_flex",
-    feature = "aes_ctr"
+    feature = "aes_ctr",
+    feature = "base64"
 ))]
 fn test_string<B>(builder: B)
 where
@@ -171,6 +172,32 @@ fn rmp_serde() {
     builder.save(&text).expect("Serialization failed.");
     let actual: String = builder.load().expect("Deserialization failed.");
     assert_eq!(actual, text);
+}
+
+#[cfg(feature = "serde_json")]
+#[test]
+fn serde_json_test() {
+    let builder = VecBuilder::default().serde_json();
+    let text = "This string is serialized and deserialized using serde_json.";
+    builder.save(&text).expect("Serialization failed.");
+    let actual: String = builder.load().expect("Deserialization failed.");
+    assert_eq!(actual, text);
+}
+
+#[cfg(feature = "postcard")]
+#[test]
+fn postcard_test() {
+    let builder = VecBuilder::default().postcard();
+    let text = "This string is serialized and deserialized using postcard.";
+    builder.save(&text).expect("Serialization failed.");
+    let actual: String = builder.load().expect("Deserialization failed.");
+    assert_eq!(actual, text);
+}
+
+#[cfg(feature = "base64")]
+#[test]
+fn base64_test() {
+    test_string(VecBuilder::default().base64());
 }
 
 #[cfg(feature = "sha2")]

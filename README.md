@@ -133,8 +133,10 @@ To provide the functionality of many different readers and writers this crate ha
 * `aes_ctr`: includes the `aes` and `ctr` crates and enables `aes128_ctr` and `aes256_ctr` symmetric encryption.
 * `digest`: includes the `digest` crate and enables the generic `hash` checksumming combinator.
 * `sha2`: includes the `sha2` crate and enables `sha256` and `sha512` hashing.
-* `sha3`: includes the `sha3` crate and enables `sha3_256` and `sha3_512` hashing.
 * `crc32fast`: includes the `crc32fast` crate and enables `crc32fast` checksumming.
+* `base64`: includes the `base64` crate and enables the `base64` encoding/decoding modifier on the `RwBuilderExt` trait.
+* `serde_json`: includes the `serde` and `serde_json` crates and enables the `serde_json` JSON sink on the `RwBuilderExt` trait.
+* `postcard`: includes the `serde` and `postcard` crates and enables the `postcard` binary sink on the `RwBuilderExt` trait.
 
 ## Development Environment
 
