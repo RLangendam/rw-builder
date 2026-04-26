@@ -1,6 +1,6 @@
 use std::io::{BufReader, BufWriter};
 
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 

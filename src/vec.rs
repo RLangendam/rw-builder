@@ -1,6 +1,6 @@
 use std::{cell::RefCell, cmp::min, rc::Rc};
 
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 

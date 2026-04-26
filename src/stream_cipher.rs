@@ -3,7 +3,7 @@ use std::{
     marker::PhantomData,
 };
 
-use anyhow::Result;
+use crate::Result;
 #[cfg(feature = "chacha20")]
 use chacha20::ChaCha20;
 use cipher::{KeyIvInit, StreamCipher};

@@ -3,7 +3,7 @@ use std::{
     process::{Child, ChildStdin, ChildStdout, Command, Stdio},
 };
 
-use anyhow::{anyhow, Result};
+use crate::{Error, Result};
 
 use crate::RwBuilder;
 
@@ -44,12 +44,12 @@ impl RwBuilder for Builder {
 
     fn reader(&self) -> Result<Self::Reader> {
         let mut child = self.command.borrow_mut().stdout(Stdio::piped()).spawn()?;
-        child.stdout.take().ok_or_else(|| anyhow!("no child stdout"))
+        child.stdout.take().ok_or(Error::MissingChildStdout("no child stdout"))
     }
 
     fn writer(&self) -> Result<Self::Writer> {
         let mut child = self.command.borrow_mut().stdin(Stdio::piped()).spawn()?;
-        child.stdin.take().ok_or_else(|| anyhow!("no child stdin"))
+        child.stdin.take().ok_or(Error::MissingChildStdin("no child stdin"))
     }
 }
 
@@ -71,7 +71,7 @@ impl RwBuilder for ChildBuilder {
             .borrow_mut()
             .stdout
             .take()
-            .ok_or_else(|| anyhow!("No child stdout. Did you already build a reader?"))
+            .ok_or(Error::MissingChildStdout("No child stdout. Did you already build a reader?"))
     }
 
     fn writer(&self) -> Result<Self::Writer> {
@@ -79,6 +79,6 @@ impl RwBuilder for ChildBuilder {
             .borrow_mut()
             .stdin
             .take()
-            .ok_or_else(|| anyhow!("No child stdin. Did you already build a writer?"))
+            .ok_or(Error::MissingChildStdin("No child stdin. Did you already build a writer?"))
     }
 }

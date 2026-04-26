@@ -13,6 +13,8 @@
         "vadimcn.vscode-lldb",
         "jscearcy.rust-doc-viewer",
         "polymeilex.rust-targets",
-        "panicbit.cargo"
+        "panicbit.cargo",
+        "jnoortheen.nix-ide",
+        "mkhl.direnv"
     ]
 }

@@ -1,4 +1,4 @@
-use anyhow::Result;
+use crate::Result;
 use flate2::{Compression, CrcReader, CrcWriter};
 
 use crate::RwBuilder;

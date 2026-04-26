@@ -37,9 +37,8 @@ This crate is provided "as is" without warranty of any kind. Furthermore, this c
 Let's say you have some application state you want to encrypt and store on disk. Once the application starts up you want to read that state back into memory. A good practice when encrypting is to compress the data beforehand so you may feel the desire to chain some readers and writers together.
 
 ```rust
-use anyhow::Result;
 use flate2::Compression;
-use rw_builder::{FileBuilder, RwBuilder, SerDe};
+use rw_builder::{FileBuilder, Result, RwBuilder, SerDe};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -54,7 +53,7 @@ fn main() -> Result<()> {
         .buffered()
         .chacha20(key.into(), nonce.into())
         .deflate(Compression::fast())
-        .bincode();
+        .wincode();
     let mut state: ApplicationState = builder.load()?;
     // Change the state
     builder.save(&state)
@@ -81,7 +80,7 @@ fn main() -> Result<()> {
 }
 
 fn save_application_state(state: &ApplicationState) -> Result<()> {
-    let serialized = bincode::serialize(&state)?;
+    let serialized = wincode::encode(&state)?;
     let mut compressor = flate2::Compress::new(Compression::fast(), false);
     let mut output = vec![];
     assert_eq!(
@@ -111,22 +110,38 @@ fn load_application_state() -> Result<ApplicationState> {
         )?,
         Status::StreamEnd
     );
-    Ok(bincode::deserialize(output.as_slice())?)
+    Ok(wincode::decode(output.as_slice())?)
 }
 ```
 This second example doesn't support streaming, which is necessary in the case of large files. Notice how the save and load functionality is described in reverse order from each other and that configuration options like the file location and the encryption key need to be made available in multiple locations. This is needlessly challenging to maintain when compared to the former example.
 
 ## Sources and Sinks
 
-You may have noticed that the `FileBuilder` struct and the `bincode` function have a special role. They are examples of a source and a sink respectively. Sources are a typical starting point for chaining builders, since they can be constructed without an inner builder. Sinks are a typical ending point for chaining builders, since they can interface with other types than `&[u8]` which `Read` and `Write` are restricted to.
+You may have noticed that the `FileBuilder` struct and the `wincode` function have a special role. They are examples of a source and a sink respectively. Sources are a typical starting point for chaining builders, since they can be constructed without an inner builder. Sinks are a typical ending point for chaining builders, since they can interface with other types than `&[u8]` which `Read` and `Write` are restricted to.
 
 ## Features
 
-To provide the functionality of many different readers and writers this crate has many optional dependencies which are enabled through a predefined set of features. The example above requires the `bincode`, `chacha20` and `flate2` features. Currently, the following features are available:
-* `bincode`: includes the `serde` and `bincode` crates and enables the `SerDe` trait and the `bincode` function on the `RwBuilder` trait.
+To provide the functionality of many different readers and writers this crate has many optional dependencies which are enabled through a predefined set of features. The example above requires the `wincode`, `chacha20` and `flate2` features. Currently, the following features are available:
+* `wincode`: includes the `serde` and `wincode` crates and enables the `SerDe` trait and the `wincode` function on the `RwBuilder` trait.
 * `chacha20`: includes the `cipher` and `chacha20` crates and enables the `chacha20` function on the `RwBuilder` trait.
 * `salsa20`: includes the `cipher` and `salsa20` crates and enables the `salsa20` function on the `RwBuilder` trait.
 * `flate2`: includes the `flate2` crate and enables the `crc`, `deflate`, `gz` and `zlib` functions on the `RwBuilder` trait.
+
+## Development Environment
+
+Although not required, it is recommended to use the provided Nix flake to set up your development environment. This avoids polluting your host machine and ensures you are using the correct version of Rust and other dependencies.
+
+To activate the environment:
+
+```bash
+nix develop
+```
+
+Alternatively, you can build the project directly with:
+
+```bash
+nix build
+```
 
 ## Contributing
 

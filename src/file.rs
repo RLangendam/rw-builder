@@ -1,6 +1,6 @@
 use std::{fs::OpenOptions, path::PathBuf};
 
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 

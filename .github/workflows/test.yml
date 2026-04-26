@@ -15,14 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install toolchain
-        uses: dtolnay/rust-toolchain@stable
-      - run: cargo install cargo-deadlinks
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
       - name: doc (rand)
         env:
           RUSTDOCFLAGS: --cfg doc_cfg
         # --all builds all crates, but with default features for other crates (okay in this case)
-        run: cargo deadlinks --ignore-fragments -- --all --features wincode,chacha20,flate2,salsa20
+        run: nix develop --command cargo deadlinks --ignore-fragments -- --all --features wincode,chacha20,flate2,salsa20
 
   test:
     runs-on: ${{ matrix.os }}
@@ -49,13 +48,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install toolchain
+      - name: Install Nix
+        if: matrix.os != 'windows-latest' && matrix.target != 'i686-unknown-linux-gnu'
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Install toolchain (Fallback)
+        if: matrix.os == 'windows-latest' || matrix.target == 'i686-unknown-linux-gnu'
         uses: dtolnay/rust-toolchain@master
         with:
           target: ${{ matrix.target }}
           toolchain: ${{ matrix.toolchain }}
-      - run: ${{ matrix.deps }}
-      - name: Test
+      - name: Install dependencies (Fallback)
+        if: matrix.os == 'windows-latest' || matrix.target == 'i686-unknown-linux-gnu'
+        run: ${{ matrix.deps }}
+      - name: Test (Nix)
+        if: matrix.os != 'windows-latest' && matrix.target != 'i686-unknown-linux-gnu'
+        run: |
+          nix develop --command bash -c "cargo test --target ${{ matrix.target }} --all-features && cargo all-features test --target ${{ matrix.target }}"
+      - name: Test (Fallback)
+        if: matrix.os == 'windows-latest' || matrix.target == 'i686-unknown-linux-gnu'
         run: |
           cargo test --target ${{ matrix.target }} --all-features
           cargo all-features test --target ${{ matrix.target }}

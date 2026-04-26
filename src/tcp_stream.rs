@@ -1,6 +1,6 @@
 use std::net::{TcpStream, ToSocketAddrs};
 
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 

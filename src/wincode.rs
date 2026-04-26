@@ -1,4 +1,4 @@
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 use wincode::io::{std_read::ReadAdapter, std_write::WriteAdapter, Writer};

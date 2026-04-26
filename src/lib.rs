@@ -59,7 +59,9 @@
     rustdoc::private_intra_doc_links
 )]
 
-use anyhow::Result;
+/// Provides the error types used by the library.
+pub mod error;
+pub use error::{Error, Result};
 
 /// Provides the `WincodeBuilder` type which acts as a sink to (de)serialize a
 /// `&[u8]` as wincode.

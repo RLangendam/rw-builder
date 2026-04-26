@@ -1,4 +1,4 @@
-use std::{ env::temp_dir, process::Command };
+use std::{env::temp_dir, process::Command};
 
 #[cfg(feature = "flate2")]
 use ::flate2::Compression;
@@ -6,14 +6,20 @@ use ::flate2::Compression;
 use super::*;
 use crate::string::AdhocWriter;
 
-fn write_and_read_string<B>(builder: B, input: &str) -> Result<String> where B: RwBuilder {
+fn write_and_read_string<B>(builder: B, input: &str) -> Result<String>
+where
+    B: RwBuilder,
+{
     let string = builder.string();
     string.write_string(input)?;
     Ok(string.to_string())
 }
 
 #[cfg(any(feature = "flate2", feature = "chacha20", feature = "salsa20"))]
-fn test_string<B>(builder: B) where B: RwBuilder {
+fn test_string<B>(builder: B)
+where
+    B: RwBuilder,
+{
     let text = String::from("This text is written from a String and read back into a String.");
     let actual = write_and_read_string(builder, &text).expect("String couldn't be written");
     assert_eq!(actual, text);
@@ -30,7 +36,7 @@ fn compression() {
 #[cfg(feature = "flate2")]
 #[test]
 fn crc() {
-    use std::io::{ Read, Write };
+    use std::io::{Read, Write};
     let expected_crc = 1_191_942_644;
     let data = [1, 2, 3, 4, 5];
     let builder = VecBuilder::default().crc();

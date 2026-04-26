@@ -3,7 +3,7 @@ use std::{
     io::{Read, Write},
 };
 
-use anyhow::Result;
+use crate::Result;
 
 use crate::RwBuilder;
 
