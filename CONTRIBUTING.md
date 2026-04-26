@@ -20,7 +20,7 @@ Thanks for your initiative to help improve this crate. We recommend you develop 
 Before you create a pull request make sure
 * clippy is happy: `cargo check` and `cargo clippy`.
 * all tests pass: `cargo test --all-features` and `cargo all-features test`.
-  * The latter command requires you to have done `cargo install all-features`. It will test all relevant combinations of features as specified in the `package.metadata.cargo-all-features` section of `Cargo.toml`.
+  * The latter command requires you to have done `cargo install cargo-all-features`. It will test all relevant combinations of features as specified in the `package.metadata.cargo-all-features` section of `Cargo.toml`.
 * the code coverage has not deteriorated: `./test_coverage.sh`.
   * Code coverage is currently only supported on Linux and requires the `llvm-tools` which you can install through `rustup component add llvm-tools`. You also need to have `grcov` installed to be able to generate the coverage reporting: `cargo install grcov`
 * there are no spelling errors.
