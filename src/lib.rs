@@ -2,6 +2,8 @@
 //! `std::io::Write`rs by chaining transformations. Since readers and writers
 //! are defined simultaneously through the same builder they can be used as
 //! inverses of each other.
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(test, allow(unused_crate_dependencies))]
 #![deny(
     future_incompatible,
     nonstandard_style,
@@ -33,7 +35,6 @@
     unsafe_code,
     unsafe_op_in_unsafe_fn,
     unstable_features,
-    unused_crate_dependencies,
     unused_extern_crates,
     unused_import_braces,
     unused_lifetimes,
@@ -218,6 +219,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Sink that provides a bridge between serde and the underlying readers and
     /// writer by transforming from and to wincode.
     #[cfg(feature = "wincode")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "wincode")))]
     fn wincode(self) -> WincodeBuilder<Self> {
         WincodeBuilder::new(self)
     }
@@ -225,6 +227,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decrypts while reading and encrypts while writing
     /// using the chacha20 cipher
     #[cfg(feature = "chacha20")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "chacha20")))]
     fn chacha20(self, key: ChaCha20Key, nonce: ChaCha20Nonce) -> ChaCha20Builder<Self> {
         ChaCha20Builder::<Self>::new(self, key, nonce)
     }
@@ -232,12 +235,14 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decrypts while reading and encrypts while writing
     /// using the salsa20 cipher
     #[cfg(feature = "salsa20")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "salsa20")))]
     fn salsa20(self, key: Salsa20Key, nonce: Salsa20Nonce) -> Salsa20Builder<Self> {
         Salsa20Builder::<Self>::new(self, key, nonce)
     }
 
     /// Non-commutative transformation that hashes using the CRC algorithm
     #[cfg(feature = "flate2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flate2")))]
     fn crc(self) -> CrcBuilder<Self> {
         CrcBuilder::new(self)
     }
@@ -245,6 +250,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the Deflate algorithm
     #[cfg(feature = "flate2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flate2")))]
     fn deflate(self, compression: Compression) -> CompressionBuilder<Self, flate2::Deflate> {
         flate2::Deflate::new(self, compression)
     }
@@ -252,6 +258,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the Gz algorithm
     #[cfg(feature = "flate2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flate2")))]
     fn gz(self, compression: Compression) -> CompressionBuilder<Self, flate2::Gz> {
         flate2::Gz::new(self, compression)
     }
@@ -259,6 +266,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the Zlib algorithm
     #[cfg(feature = "flate2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flate2")))]
     fn zlib(self, compression: Compression) -> CompressionBuilder<Self, flate2::Zlib> {
         flate2::Zlib::new(self, compression)
     }
@@ -266,6 +274,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the Zstd algorithm
     #[cfg(feature = "zstd")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "zstd")))]
     fn zstd(self, level: i32) -> ZstdBuilder<Self> {
         ZstdBuilder::new(self, level)
     }
@@ -273,6 +282,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the bzip2 algorithm
     #[cfg(feature = "bzip2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "bzip2")))]
     fn bzip2(self, compression: BzCompression) -> BzBuilder<Self> {
         BzBuilder::new(self, compression)
     }
@@ -280,66 +290,77 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decompresses while reading and compresses while
     /// writing using the `lz4_flex` algorithm
     #[cfg(feature = "lz4_flex")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "lz4_flex")))]
     fn lz4_flex(self) -> Lz4Builder<Self> {
         Lz4Builder::new(self)
     }
 
     /// Computes a hash or checksum using the `digest` crate's `Digest` trait while reading and writing.
     #[cfg(feature = "digest")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "digest")))]
     fn hash<D: ::digest::Digest>(self) -> DigestBuilder<Self, D> {
         DigestBuilder::new(self)
     }
 
     /// Computes a SHA256 hash while reading and writing.
     #[cfg(feature = "sha2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sha2")))]
     fn sha256(self) -> Sha256Builder<Self> {
         DigestBuilder::new(self)
     }
 
     /// Computes a SHA512 hash while reading and writing.
     #[cfg(feature = "sha2")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sha2")))]
     fn sha512(self) -> Sha512Builder<Self> {
         DigestBuilder::new(self)
     }
 
     /// Computes a SHA3-256 hash while reading and writing.
     #[cfg(feature = "sha3")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sha3")))]
     fn sha3_256(self) -> Sha3_256Builder<Self> {
         DigestBuilder::new(self)
     }
 
     /// Computes a SHA3-512 hash while reading and writing.
     #[cfg(feature = "sha3")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sha3")))]
     fn sha3_512(self) -> Sha3_512Builder<Self> {
         DigestBuilder::new(self)
     }
 
     /// Computes a CRC32 checksum using the `crc32fast` crate while reading and writing.
     #[cfg(feature = "crc32fast")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "crc32fast")))]
     fn crc32fast(self) -> Crc32FastBuilder<Self> {
         Crc32FastBuilder::new(self)
     }
 
     /// Sink that loads and saves values using `rmp-serde` (`MessagePack`).
     #[cfg(feature = "rmp_serde")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "rmp_serde")))]
     fn rmp_serde(self) -> rmp_serde::Builder<Self> {
         rmp_serde::Builder::new(self)
     }
 
     /// Transformation that encodes/decodes in base64 format.
     #[cfg(feature = "base64")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "base64")))]
     fn base64(self) -> Base64Builder<Self> {
         Base64Builder::new(self)
     }
 
     /// Sink that loads and saves values using `serde_json` (JSON).
     #[cfg(feature = "serde_json")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "serde_json")))]
     fn serde_json(self) -> serde_json::Builder<Self> {
         serde_json::Builder::new(self)
     }
 
     /// Sink that loads and saves values using `postcard` (Binary format).
     #[cfg(feature = "postcard")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "postcard")))]
     fn postcard(self) -> postcard::Builder<Self> {
         postcard::Builder::new(self)
     }
@@ -347,6 +368,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decrypts while reading and encrypts while writing
     /// using the AES-128-CTR algorithm
     #[cfg(feature = "aes_ctr")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "aes_ctr")))]
     fn aes128_ctr(self, key: Aes128Key, nonce: AesNonce) -> Aes128CtrBuilder<Self> {
         Aes128CtrBuilder::new(self, key, nonce)
     }
@@ -354,6 +376,7 @@ pub trait RwBuilderExt: RwBuilder {
     /// Transformation that decrypts while reading and encrypts while writing
     /// using the AES-256-CTR algorithm
     #[cfg(feature = "aes_ctr")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "aes_ctr")))]
     fn aes256_ctr(self, key: Aes256Key, nonce: AesNonce) -> Aes256CtrBuilder<Self> {
         Aes256CtrBuilder::new(self, key, nonce)
     }

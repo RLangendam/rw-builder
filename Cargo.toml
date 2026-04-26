@@ -58,6 +58,13 @@ base64 = ["dep:base64"]
 serde_json = ["dep:serde_json", "dep:serde"]
 postcard = ["dep:postcard", "dep:serde"]
 
+[[bench]]
+name = "rw_benchmark"
+harness = false
+
+[dev-dependencies]
+criterion = "0.8.2"
+
 [package.metadata.cargo-all-features]
 max_combination_size = 2
 

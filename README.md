@@ -154,6 +154,40 @@ Alternatively, you can build the project directly with:
 nix build
 ```
 
+## Examples
+
+The `examples/` directory contains fully executable examples that demonstrate how to construct complex pipelines for real-world scenarios:
+
+- **`examples/secure_archival.rs`**: Demonstrates chaining `File` -> `AES-256` -> `Deflate` -> `Postcard` to securely archive sensitive Rust structures directly to disk.
+- **`examples/json_streaming.rs`**: Demonstrates base64 encoding a JSON stream on the fly.
+
+You can run an example with:
+```bash
+cargo run --example secure_archival --all-features
+```
+
+## Benchmarks
+
+Because `rw-builder` constructs a transparent proxy of `std::io` readers and writers, the overhead of the builder pattern is practically zero. 
+
+A `criterion` benchmark suite is included in `benches/rw_benchmark.rs` to measure the overhead of chaining transformations.
+
+**Hardware Details:**
+- **CPU**: AMD Ryzen 9 3900X 12-Core Processor
+- **RAM**: 32 GB
+- **OS**: Linux
+
+**Throughput (1MB Payload):**
+- **Raw `Vec::write_all`**: ~22.5µs (43.2 GiB/s)
+- **`VecBuilder`**: ~20.9µs (46.5 GiB/s) *(Zero overhead)*
+- **Raw `DeflateEncoder`**: ~137.1µs (7.12 GiB/s)
+- **`Deflate` via Builder**: ~145.0µs (6.73 GiB/s) *(< 5% overhead)*
+
+You can run the benchmarks yourself with:
+```bash
+cargo bench --all-features
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
