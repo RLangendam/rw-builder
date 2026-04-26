@@ -42,7 +42,6 @@ where
     /// Returns an error if the underlying writer fails or if the serialization fails.
     pub fn save<T: Serialize>(&self, item: &T) -> Result<()> {
         let writer = self.builder.writer()?;
-        serde_json::to_writer(writer, item)
-            .map_err(|e| crate::error::Error::Other(e.to_string()))
+        serde_json::to_writer(writer, item).map_err(|e| crate::error::Error::Other(e.to_string()))
     }
 }

@@ -211,10 +211,7 @@ fn sha256_hash() {
         writer.write_all(data).unwrap();
         let hash = writer.finalize();
         let hash_hex: String = hash.iter().map(|b| format!("{:02x}", b)).collect();
-        assert_eq!(
-            hash_hex,
-            "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
-        );
+        assert_eq!(hash_hex, "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
     }
     {
         let mut reader = builder.reader().unwrap();
@@ -222,10 +219,7 @@ fn sha256_hash() {
         let _bytes = reader.read_to_end(&mut buffer).unwrap();
         let hash = reader.finalize();
         let hash_hex: String = hash.iter().map(|b| format!("{:02x}", b)).collect();
-        assert_eq!(
-            hash_hex,
-            "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
-        );
+        assert_eq!(hash_hex, "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
         assert_eq!(buffer, data);
     }
 }
@@ -233,8 +227,8 @@ fn sha256_hash() {
 #[cfg(all(feature = "aes_ctr", feature = "flate2"))]
 #[test]
 fn compression_encryption_order() {
-    use std::io::Write;
     use std::env::temp_dir;
+    use std::io::Write;
     let data = vec![0u8; 10000];
     let key = [0x42; 16];
     let nonce = [0x24; 16];
@@ -264,10 +258,10 @@ fn compression_encryption_order() {
     // Encrypting before compressing results in no compression
     assert!(len_correct < len_incorrect);
     // Correct order should compress it massively
-    assert!(len_correct < 1000); 
+    assert!(len_correct < 1000);
     // Incorrect order keeps it near 10000 bytes
     assert!(len_incorrect >= 10000);
-    
+
     let _ = std::fs::remove_file(path_correct);
     let _ = std::fs::remove_file(path_incorrect);
 }
@@ -277,7 +271,7 @@ fn compression_encryption_order() {
 fn hashing_with_sink_workaround() {
     let data = "serialize me";
     let builder = VecBuilder::default().sha256();
-    
+
     // To get the hash, we must construct the writer manually instead of using builder.rmp_serde().save()
     // because sinks consume and drop the writer.
     let mut writer = builder.writer().unwrap();
