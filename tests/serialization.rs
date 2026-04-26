@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use rw_builder::{RwBuilderExt, VecBuilder};
 
 #[cfg(feature = "wincode")]

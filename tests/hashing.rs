@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use rw_builder::{RwBuilder, RwBuilderExt, VecBuilder};
 
 #[cfg(feature = "flate2")]

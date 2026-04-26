@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use rw_builder::{RwBuilderExt, VecBuilder};
 mod common;
 use common::test_string;

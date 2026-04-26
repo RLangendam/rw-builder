@@ -1,4 +1,3 @@
-use rw_builder::AdhocWriter;
 use rw_builder::{FileBuilder, ProcessBuilder, RwBuilderExt};
 use std::{env::temp_dir, process::Command};
 mod common;

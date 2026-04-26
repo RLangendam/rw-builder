@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use rw_builder::{FileBuilder, RwBuilder, RwBuilderExt, VecBuilder};
 
 #[cfg(all(
