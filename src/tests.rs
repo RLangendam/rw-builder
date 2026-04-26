@@ -15,7 +15,7 @@ where
     Ok(string.to_string())
 }
 
-#[cfg(any(feature = "flate2", feature = "chacha20", feature = "salsa20"))]
+#[cfg(any(feature = "flate2", feature = "chacha20", feature = "salsa20", feature = "zstd", feature = "bzip2", feature = "lz4_flex"))]
 fn test_string<B>(builder: B)
 where
     B: RwBuilder,
