@@ -26,7 +26,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rw-builder = "0.0.1"
+rw-builder = "0.0.2"
 ```
 
 ## Warning
