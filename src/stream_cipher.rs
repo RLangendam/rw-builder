@@ -45,9 +45,9 @@ where
 #[cfg(feature = "chacha20")]
 pub type ChaCha20Key = chacha20::Key;
 
-/// The nonce type for the chacha20 cipher
+/// The nonce type for the chacha20 cipher (12 bytes for IETF variant)
 #[cfg(feature = "chacha20")]
-pub type ChaCha20Nonce = chacha20::Nonce;
+pub type ChaCha20Nonce = [u8; 12];
 
 /// The type returned by the `chacha20` function in the `RwBuilder` trait
 #[cfg(feature = "chacha20")]
@@ -77,7 +77,7 @@ where
     B: RwBuilder,
 {
     fn create_cipher(&self) -> ChaCha20 {
-        ChaCha20::new(&self.key, &self.nonce)
+        ChaCha20::new(&self.key, (&self.nonce).into())
     }
 }
 
