@@ -136,7 +136,6 @@ mod lz4_flex;
 #[cfg(feature = "lz4_flex")]
 pub use crate::lz4_flex::Lz4Builder;
 
-
 /// The trait that can construct readers and writers, but also has chainable
 /// functions to create more complex builders
 pub trait RwBuilder
@@ -166,7 +165,6 @@ where
 
 /// Extension trait providing combinator methods for `RwBuilder` instances
 pub trait RwBuilderExt: RwBuilder {
-
     /// Buffers the underlying readers and writers by wrapping them in a
     /// `BufReader` or `BufWriter`
     fn buffered(self) -> BufferedBuilder<Self> {
@@ -247,7 +245,6 @@ pub trait RwBuilderExt: RwBuilder {
     fn lz4_flex(self) -> Lz4Builder<Self> {
         Lz4Builder::new(self)
     }
-
 }
 
 impl<T: RwBuilder> RwBuilderExt for T {}

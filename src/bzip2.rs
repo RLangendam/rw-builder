@@ -1,5 +1,5 @@
-pub use bzip2::Compression;
 use crate::{Result, RwBuilder};
+pub use bzip2::Compression;
 
 /// Type returned by the `bzip2` function on the `RwBuilderExt` trait.
 /// It is itself an `RwBuilder` so can be chained further.
