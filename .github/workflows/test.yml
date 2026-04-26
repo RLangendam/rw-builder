@@ -58,7 +58,7 @@ jobs:
       - name: Test
         run: |
           cargo test --target ${{ matrix.target }} --all-features
-          cargo test-all-features --target ${{ matrix.target }}
+          cargo all-features test --target ${{ matrix.target }}
 
   test-ios:
     runs-on: macos-latest
