@@ -154,16 +154,18 @@ Alternatively, you can build the project directly with:
 nix build
 ```
 
-## Examples
+## Examples & Integration Tests
 
-The `examples/` directory contains fully executable examples that demonstrate how to construct complex pipelines for real-world scenarios:
+The `tests/` directory contains highly-documented integration tests that demonstrate how to construct complex pipelines for real-world scenarios. We encourage developers to look at these tests to understand how to use this crate:
 
-- **`examples/secure_archival.rs`**: Demonstrates chaining `File` -> `AES-256` -> `Deflate` -> `Postcard` to securely archive sensitive Rust structures directly to disk.
-- **`examples/json_streaming.rs`**: Demonstrates base64 encoding a JSON stream on the fly.
+- **`tests/secure_archival.rs`**: Demonstrates chaining `File` -> `AES-256` -> `Deflate` -> `Postcard` to securely archive sensitive Rust structures directly to disk.
+- **`tests/json_streaming.rs`**: Demonstrates base64 encoding a JSON stream on the fly.
+- **`tests/combinations.rs`**: Showcases complex combinations like roundtripping, dealing with sink limitations, and proper `Compression` / `Encryption` ordering.
 
-You can run an example with:
+You can run these integration tests natively via cargo:
 ```bash
-cargo run --example secure_archival --all-features
+cargo test --test secure_archival --all-features
+cargo test --test json_streaming --all-features
 ```
 
 ## Benchmarks

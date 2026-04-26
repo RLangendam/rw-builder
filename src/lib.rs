@@ -405,5 +405,4 @@ pub trait SerDe {
         T: serde::ser::Serialize;
 }
 
-#[cfg(test)]
-mod tests;
+
