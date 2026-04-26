@@ -8,6 +8,7 @@ use crate::RwBuilder;
 /// It is itself an `RwBuilder`, but can't be created through one.
 /// This is why we call it a source.
 #[derive(Debug, Default)]
+#[must_use]
 pub struct Builder {
     /// The inner `Vec` which is used to write data to and read data from
     /// It is shared between the reader and the writer

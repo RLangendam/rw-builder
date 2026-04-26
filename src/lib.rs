@@ -143,6 +143,10 @@ where
     /// In case the construction of any of the intermediate writers fails this
     /// will return the error associated to the first one that failed.
     fn writer(&self) -> Result<Self::Writer>;
+}
+
+/// Extension trait providing combinator methods for `RwBuilder` instances
+pub trait RwBuilderExt: RwBuilder {
 
     /// Buffers the underlying readers and writers by wrapping them in a
     /// `BufReader` or `BufWriter`
@@ -204,6 +208,8 @@ where
         flate2::Zlib::new(self, compression)
     }
 }
+
+impl<T: RwBuilder> RwBuilderExt for T {}
 
 /// Trait to wrap serialization and deserialization functionality behind uniform
 /// load and save functions

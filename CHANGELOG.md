@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Combinatorial tests for complex reader/writer chains.
+- `lint.yml` GitHub Action for `cargo clippy`, `cargo fmt`, and `cargo audit` checks.
+- Extension trait pattern via `RwBuilderExt` for better extensibility.
+
+### Changed
+- Standardized MSRV to 1.89 across all configuration files and documentation.
+- Enhanced `dependabot.yml` to group updates and use `chore(deps)` conventional commit prefixes.
+- **Breaking**: Moved combinator methods (e.g. `wincode`, `chacha20`) from `RwBuilder` into a new `RwBuilderExt` extension trait.
+- **Breaking**: Added `#[non_exhaustive]` to the `Error` enum to prevent future breakage on new error types.
+- **Breaking**: Added `#[must_use]` to all builders and combinators to warn users against unused chains.
+
 ## [0.0.2] - 2026-04-26
 
 ### Changed

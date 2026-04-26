@@ -15,6 +15,7 @@ use crate::RwBuilder;
 /// Type returned by the `chacha20` and `salsa20` functions on the `RwBuilder`
 /// trait. It is itself an `RwBuilder` so can be chained further.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder<B, C, K, N>
 where
     B: RwBuilder,

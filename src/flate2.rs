@@ -6,6 +6,7 @@ use crate::RwBuilder;
 /// Type returned by the `deflate`, `gz` and `zlib` functions on the `RwBuilder`
 /// trait. It is itself an `RwBuilder` so can be chained further.
 #[derive(Debug)]
+#[must_use]
 pub struct CompressionBuilder<B, C>
 where
     B: RwBuilder,
@@ -143,6 +144,7 @@ impl<B> Constructor<B> for Deflate where B: RwBuilder {}
 /// It is itself an `RwBuilder` so can be chained further, although this is an
 /// uncommon scenario
 #[derive(Debug)]
+#[must_use]
 pub struct CrcBuilder<B>
 where
     B: RwBuilder,
@@ -156,7 +158,6 @@ where
     B: RwBuilder,
 {
     /// Factory function to wrap an inner builder
-    #[must_use]
     pub const fn new(builder: B) -> Self {
         Self { builder }
     }

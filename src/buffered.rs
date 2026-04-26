@@ -7,6 +7,7 @@ use crate::RwBuilder;
 /// Type returned by the `buffered` function on the `RwBuilder` trait.
 /// It is itself an `RwBuilder` so can be chained further.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder<B>
 where
     B: RwBuilder,
@@ -20,7 +21,6 @@ where
     B: RwBuilder,
 {
     /// Factory function to wrap an inner builder
-    #[must_use]
     pub const fn new(builder: B) -> Self {
         Self { builder }
     }

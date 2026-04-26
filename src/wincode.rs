@@ -11,6 +11,7 @@ use wincode::io::{std_read::ReadAdapter, std_write::WriteAdapter, Writer};
 /// Due to wincode's schema trait requirements, types must implement both
 /// `serde` traits and `wincode`'s `SchemaRead`/`SchemaWrite` traits.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder<B>
 where
     B: RwBuilder,
@@ -24,7 +25,6 @@ where
     B: RwBuilder,
 {
     /// Factory function to wrap an inner builder
-    #[must_use]
     pub const fn new(builder: B) -> Self {
         Self { builder }
     }

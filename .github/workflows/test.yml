@@ -35,7 +35,7 @@ jobs:
             toolchain: stable
           - os: macos-latest
             deps: cargo install cargo-all-features
-            target: x86_64-apple-darwin
+            target: aarch64-apple-darwin
             toolchain: stable
           - os: windows-latest
             deps: cargo install cargo-all-features

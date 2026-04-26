@@ -2,6 +2,7 @@ use thiserror::Error;
 
 /// The error type for rw-builder operations.
 #[derive(Error, Debug)]
+#[non_exhaustive]
 pub enum Error {
     /// Standard I/O error
     #[error("I/O error: {0}")]

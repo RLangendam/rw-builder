@@ -8,6 +8,7 @@ use crate::RwBuilder;
 /// It is itself an `RwBuilder`, but can't be created through one.
 /// This is why we call it a source.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder<A>
 where
     A: ToSocketAddrs,

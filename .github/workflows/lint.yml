@@ -1,0 +1,33 @@
+name: Lint and Audit
+
+on:
+  push:
+    branches: [ master, '0.[0-9]+' ]
+  pull_request:
+    branches: [ master, '0.[0-9]+' ]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Clippy
+        run: nix develop --command cargo clippy --all-features -- -D warnings
+      - name: Format
+        run: nix develop --command cargo fmt -- --check
+
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Install cargo-audit
+        run: nix develop --command bash -c "cargo install cargo-audit && cargo audit"

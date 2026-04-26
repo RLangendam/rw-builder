@@ -108,3 +108,23 @@ fn wincode() {
     let actual: String = builder.load().expect("Deserialization failed.");
     assert_eq!(actual, text);
 }
+
+#[cfg(all(feature = "wincode", feature = "chacha20", feature = "flate2", feature = "salsa20"))]
+#[test]
+fn roundtrip_combinations() {
+    let key1 = [0x42; 32];
+    let nonce1 = [0x24; 12];
+    let key2 = [0x11; 32];
+    let nonce2 = [0x22; 8];
+
+    let builder = VecBuilder::default()
+        .deflate(Compression::fast())
+        .chacha20(key1.into(), nonce1)
+        .salsa20(key2.into(), nonce2.into())
+        .wincode();
+
+    let text = "This is a complex roundtrip test chaining compression, multiple encryptions, and wincode serialization.";
+    builder.save(&text).expect("Complex serialization failed.");
+    let actual: String = builder.load().expect("Complex deserialization failed.");
+    assert_eq!(actual, text);
+}

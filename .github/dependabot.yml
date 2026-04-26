@@ -13,6 +13,8 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "master"
+    commit-message:
+      prefix: "chore(deps)"
     # Group updates to reduce PR noise
     groups:
       dependencies:

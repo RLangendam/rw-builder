@@ -11,6 +11,7 @@ use crate::RwBuilder;
 /// It is itself not an `RwBuilder` so can't be chained further.
 /// This is why we call it a sink.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder<B>
 where
     B: RwBuilder,
@@ -24,7 +25,6 @@ where
     B: RwBuilder,
 {
     /// Factory function to wrap an inner builder
-    #[must_use]
     pub const fn new(builder: B) -> Self {
         Self { builder }
     }

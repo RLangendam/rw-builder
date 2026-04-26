@@ -8,6 +8,7 @@ use crate::RwBuilder;
 /// It is itself an `RwBuilder`, but can't be created through one.
 /// This is why we call it a source.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder {
     /// The path of the file for which readers and writers can be created.
     path: PathBuf,
@@ -15,7 +16,6 @@ pub struct Builder {
 
 impl Builder {
     /// Factory function to create a builder holding on to a file path
-    #[must_use]
     pub const fn new(path: PathBuf) -> Self {
         Self { path }
     }

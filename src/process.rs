@@ -11,6 +11,7 @@ use crate::RwBuilder;
 /// It is itself an `RwBuilder`, but can't be created through one.
 /// This is why we call it a source.
 #[derive(Debug)]
+#[must_use]
 pub struct Builder {
     /// The command used to spawn the process to attach a reader and/or writer
     /// to.
@@ -20,7 +21,6 @@ pub struct Builder {
 impl Builder {
     /// Create a builder that spawns a process based on the command being
     /// passed.
-    #[must_use]
     pub fn new(command: Command) -> Self {
         Self { command: command.into() }
     }
@@ -57,6 +57,7 @@ impl RwBuilder for Builder {
 /// It is itself an `RwBuilder`, so it can be chained further.
 /// It is also a source.
 #[derive(Debug)]
+#[must_use]
 pub struct ChildBuilder {
     /// Handle to the child process
     child: RefCell<Child>,

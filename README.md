@@ -38,7 +38,7 @@ Let's say you have some application state you want to encrypt and store on disk.
 
 ```rust
 use flate2::Compression;
-use rw_builder::{FileBuilder, Result, RwBuilder, SerDe};
+use rw_builder::{FileBuilder, Result, RwBuilder, RwBuilderExt, SerDe};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
