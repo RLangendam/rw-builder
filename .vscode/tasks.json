@@ -18,7 +18,8 @@
 		},
 		{
 			"type": "cargo",
-			"command": "all-features test",
+			"command": "all-features",
+			"args": ["test"],
 			"problemMatcher": [
 				"$rustc"
 			],
