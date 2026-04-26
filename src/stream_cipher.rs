@@ -9,6 +9,10 @@ use chacha20::ChaCha20;
 use cipher::{KeyIvInit, StreamCipher};
 #[cfg(feature = "salsa20")]
 use salsa20::Salsa20;
+#[cfg(feature = "aes_ctr")]
+use aes::{Aes128, Aes256};
+#[cfg(feature = "aes_ctr")]
+use ctr::Ctr128BE;
 
 use crate::RwBuilder;
 
@@ -66,6 +70,24 @@ pub type Salsa20Nonce = salsa20::Nonce;
 #[cfg(feature = "salsa20")]
 pub type Salsa20Builder<B> = Builder<B, Salsa20, Salsa20Key, Salsa20Nonce>;
 
+#[cfg(feature = "aes_ctr")]
+pub type Aes128Ctr = Ctr128BE<Aes128>;
+#[cfg(feature = "aes_ctr")]
+pub type Aes256Ctr = Ctr128BE<Aes256>;
+
+#[cfg(feature = "aes_ctr")]
+pub type Aes128Key = cipher::generic_array::GenericArray<u8, cipher::typenum::U16>;
+#[cfg(feature = "aes_ctr")]
+pub type Aes256Key = cipher::generic_array::GenericArray<u8, cipher::typenum::U32>;
+#[cfg(feature = "aes_ctr")]
+pub type AesNonce = cipher::generic_array::GenericArray<u8, cipher::typenum::U16>;
+
+#[cfg(feature = "aes_ctr")]
+pub type Aes128CtrBuilder<B> = Builder<B, Aes128Ctr, Aes128Key, AesNonce>;
+#[cfg(feature = "aes_ctr")]
+pub type Aes256CtrBuilder<B> = Builder<B, Aes256Ctr, Aes256Key, AesNonce>;
+
+
 /// Recipe for how to create a cipher
 trait CipherFactory<C> {
     /// Create the cipher from the key and the nonce stored in self
@@ -89,6 +111,26 @@ where
 {
     fn create_cipher(&self) -> Salsa20 {
         Salsa20::new(&self.key, &self.nonce)
+    }
+}
+
+#[cfg(feature = "aes_ctr")]
+impl<B> CipherFactory<Aes128Ctr> for Builder<B, Aes128Ctr, Aes128Key, AesNonce>
+where
+    B: RwBuilder,
+{
+    fn create_cipher(&self) -> Aes128Ctr {
+        Aes128Ctr::new(&self.key, &self.nonce)
+    }
+}
+
+#[cfg(feature = "aes_ctr")]
+impl<B> CipherFactory<Aes256Ctr> for Builder<B, Aes256Ctr, Aes256Key, AesNonce>
+where
+    B: RwBuilder,
+{
+    fn create_cipher(&self) -> Aes256Ctr {
+        Aes256Ctr::new(&self.key, &self.nonce)
     }
 }
 

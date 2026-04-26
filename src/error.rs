@@ -16,6 +16,15 @@ pub enum Error {
     #[error("Missing child stdin: {0}")]
     MissingChildStdin(&'static str),
 
+    /// Cipher error
+    #[cfg(any(feature = "chacha20", feature = "salsa20", feature = "aes_ctr"))]
+    #[error("Cipher error: {0}")]
+    Cipher(String),
+
+    /// Other generic error
+    #[error("Other error: {0}")]
+    Other(String),
+
     /// Error returned by wincode read operations
     #[cfg(feature = "wincode")]
     #[error("Wincode read error: {0}")]

@@ -103,6 +103,8 @@ mod stream_cipher;
 pub use stream_cipher::{ChaCha20Builder, ChaCha20Key, ChaCha20Nonce};
 #[cfg(feature = "salsa20")]
 pub use stream_cipher::{Salsa20Builder, Salsa20Key, Salsa20Nonce};
+#[cfg(feature = "aes_ctr")]
+pub use stream_cipher::{Aes128CtrBuilder, Aes128Key, Aes256CtrBuilder, Aes256Key, AesNonce};
 
 /// Provides the `StringBuilder` type which is a sink without serde
 mod string;
@@ -135,6 +137,22 @@ pub use crate::bzip2::{BzBuilder, Compression as BzCompression};
 mod lz4_flex;
 #[cfg(feature = "lz4_flex")]
 pub use crate::lz4_flex::Lz4Builder;
+
+/// Provides the `DigestBuilder` wrapper around the `digest` trait.
+#[cfg(feature = "digest")]
+mod digest;
+#[cfg(feature = "digest")]
+pub use crate::digest::{DigestBuilder, DigestReader, DigestWriter};
+
+/// Provides the `Crc32FastBuilder` wrapper around the `crc32fast` algorithm.
+#[cfg(feature = "crc32fast")]
+mod crc32fast;
+#[cfg(feature = "crc32fast")]
+pub use crate::crc32fast::{Crc32FastBuilder, Crc32FastReader, Crc32FastWriter};
+
+/// Provides the `Builder` for `rmp-serde` (MessagePack serialization/deserialization).
+#[cfg(feature = "rmp_serde")]
+pub mod rmp_serde;
 
 /// The trait that can construct readers and writers, but also has chainable
 /// functions to create more complex builders
@@ -244,6 +262,38 @@ pub trait RwBuilderExt: RwBuilder {
     #[cfg(feature = "lz4_flex")]
     fn lz4_flex(self) -> Lz4Builder<Self> {
         Lz4Builder::new(self)
+    }
+
+    /// Computes a hash or checksum using the `digest` crate's `Digest` trait while reading and writing.
+    #[cfg(feature = "digest")]
+    fn hash<D: ::digest::Digest>(self) -> DigestBuilder<Self, D> {
+        DigestBuilder::new(self)
+    }
+
+    /// Computes a CRC32 checksum using the `crc32fast` crate while reading and writing.
+    #[cfg(feature = "crc32fast")]
+    fn crc32fast(self) -> Crc32FastBuilder<Self> {
+        Crc32FastBuilder::new(self)
+    }
+
+    /// Sink that loads and saves values using `rmp-serde` (MessagePack).
+    #[cfg(feature = "rmp_serde")]
+    fn rmp_serde(self) -> rmp_serde::Builder<Self> {
+        rmp_serde::Builder::new(self)
+    }
+
+    /// Transformation that decrypts while reading and encrypts while writing
+    /// using the AES-128-CTR algorithm
+    #[cfg(feature = "aes_ctr")]
+    fn aes128_ctr(self, key: Aes128Key, nonce: AesNonce) -> Aes128CtrBuilder<Self> {
+        Aes128CtrBuilder::new(self, key, nonce)
+    }
+
+    /// Transformation that decrypts while reading and encrypts while writing
+    /// using the AES-256-CTR algorithm
+    #[cfg(feature = "aes_ctr")]
+    fn aes256_ctr(self, key: Aes256Key, nonce: AesNonce) -> Aes256CtrBuilder<Self> {
+        Aes256CtrBuilder::new(self, key, nonce)
     }
 }
 
