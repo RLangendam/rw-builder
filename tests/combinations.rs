@@ -1,12 +1,7 @@
 #![allow(unused_imports)]
 use rw_builder::{FileBuilder, RwBuilder, RwBuilderExt, VecBuilder};
 
-#[cfg(all(
-    feature = "wincode",
-    feature = "chacha20",
-    feature = "flate2",
-    feature = "salsa20"
-))]
+#[cfg(all(feature = "wincode", feature = "chacha20", feature = "flate2", feature = "salsa20"))]
 #[test]
 fn roundtrip_combinations() {
     use flate2::Compression;
@@ -24,9 +19,7 @@ fn roundtrip_combinations() {
 
     let text = "This is a complex roundtrip test chaining compression, multiple encryptions, and wincode serialization.";
     builder.save(&text).expect("Complex serialization failed.");
-    let actual: String = builder
-        .load()
-        .expect("Complex deserialization failed.");
+    let actual: String = builder.load().expect("Complex deserialization failed.");
     assert_eq!(actual, text);
 }
 

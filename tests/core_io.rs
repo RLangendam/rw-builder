@@ -28,8 +28,6 @@ fn process_child() {
     use rw_builder::AdhocWriter;
     let command = Command::new("tee");
     let builder = ProcessBuilder::new(command).spawn().expect("Couldn't spawn process").string();
-    builder
-        .write_string("Hello world.\n")
-        .expect("Couldn't write string.");
+    builder.write_string("Hello world.\n").expect("Couldn't write string.");
     assert_eq!(builder.to_string(), "Hello world.\n");
 }
