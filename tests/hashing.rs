@@ -1,4 +1,4 @@
-use rw_builder::{RwBuilderExt, VecBuilder};
+use rw_builder::{RwBuilder, RwBuilderExt, VecBuilder};
 
 #[cfg(feature = "flate2")]
 #[test]

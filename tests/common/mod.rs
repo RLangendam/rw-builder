@@ -1,7 +1,7 @@
-use rw_builder::string::AdhocWriter;
-use rw_builder::RwBuilder;
+use rw_builder::AdhocWriter;
+use rw_builder::{RwBuilder, RwBuilderExt};
 
-pub fn write_and_read_string<B>(builder: B, input: &str) -> std::io::Result<String>
+pub fn write_and_read_string<B>(builder: B, input: &str) -> rw_builder::Result<String>
 where
     B: RwBuilder,
 {

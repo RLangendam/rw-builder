@@ -1,3 +1,4 @@
+use rw_builder::AdhocWriter;
 use rw_builder::{FileBuilder, ProcessBuilder, RwBuilderExt};
 use std::{env::temp_dir, process::Command};
 mod common;
@@ -25,7 +26,7 @@ fn process_stdout() {
 #[cfg(target_os = "linux")]
 #[test]
 fn process_child() {
-    use rw_builder::string::AdhocWriter;
+    use rw_builder::AdhocWriter;
     let command = Command::new("tee");
     let builder = ProcessBuilder::new(command).spawn().expect("Couldn't spawn process").string();
     builder

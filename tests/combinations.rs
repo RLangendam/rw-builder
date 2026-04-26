@@ -1,4 +1,4 @@
-use rw_builder::{FileBuilder, RwBuilderExt, VecBuilder};
+use rw_builder::{FileBuilder, RwBuilder, RwBuilderExt, VecBuilder};
 
 #[cfg(all(
     feature = "wincode",
