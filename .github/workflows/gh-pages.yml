@@ -23,14 +23,14 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Build docs
         env:
           RUSTDOCFLAGS: --cfg doc_cfg
         # --all builds all crates, but with default features for other crates (okay in this case)
         run: |
-          cargo doc --all --features bincode,chacha20,flate2,salsa20
+          cargo doc --all --features wincode,chacha20,flate2,salsa20
           cp utils/redirect.html target/doc/index.html
 
       - name: Setup Pages

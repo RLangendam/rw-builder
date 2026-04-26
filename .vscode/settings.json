@@ -5,18 +5,23 @@
     ],
     "cSpell.words": [
         "Addrs",
-        "bincode",
         "chacha",
         "clippy",
+        "dtolnay",
         "flate",
+        "grcov",
         "idents",
         "keystream",
         "lcov",
+        "multilib",
         "rustc",
         "rustdoc",
+        "RUSTDOCFLAGS",
         "rustfmt",
         "rustup",
         "serde",
-        "struct"
-    ]
+        "struct",
+        "wincode"
+    ],
+    "editor.defaultFormatter": "jinxdash.prettier-rust"
 }

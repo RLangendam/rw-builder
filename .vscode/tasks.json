@@ -18,14 +18,14 @@
 		},
 		{
 			"type": "cargo",
-			"command": "test-all-features",
+			"command": "all-features test",
 			"problemMatcher": [
 				"$rustc"
 			],
 			"group": {
 				"kind": "test",
 			},
-			"label": "rust: cargo test-all-features"
+			"label": "rust: cargo all-features test"
 		},
 		{
 			"type": "cargo",

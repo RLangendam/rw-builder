@@ -25,7 +25,6 @@
     non_ascii_idents,
     noop_method_call,
     rust_2021_incompatible_or_patterns,
-    pointer_structural_match,
     semicolon_in_expressions_from_macros,
     single_use_lifetimes,
     trivial_casts,
@@ -62,12 +61,12 @@
 
 use anyhow::Result;
 
-/// Provides the `BincodeBuilder` type which acts as a sink to (de)serialize a
-/// `&[u8]` as bincode.
-#[cfg(feature = "bincode")]
-mod bincode;
-#[cfg(feature = "bincode")]
-pub use crate::bincode::Builder as BincodeBuilder;
+/// Provides the `WincodeBuilder` type which acts as a sink to (de)serialize a
+/// `&[u8]` as wincode.
+#[cfg(feature = "wincode")]
+mod wincode;
+#[cfg(feature = "wincode")]
+pub use crate::wincode::Builder as WincodeBuilder;
 
 /// Provides the `BufferedBuilder` type which helps build `BufReader` and
 /// `BufWriter` instances.
@@ -156,10 +155,10 @@ where
     }
 
     /// Sink that provides a bridge between serde and the underlying readers and
-    /// writer by transforming from and to bincode.
-    #[cfg(feature = "bincode")]
-    fn bincode(self) -> BincodeBuilder<Self> {
-        BincodeBuilder::new(self)
+    /// writer by transforming from and to wincode.
+    #[cfg(feature = "wincode")]
+    fn wincode(self) -> WincodeBuilder<Self> {
+        WincodeBuilder::new(self)
     }
 
     /// Transformation that decrypts while reading and encrypts while writing
@@ -206,7 +205,7 @@ where
 
 /// Trait to wrap serialization and deserialization functionality behind uniform
 /// load and save functions
-#[cfg(feature = "bincode")]
+#[cfg(feature = "wincode")]
 pub trait SerDe {
     /// Deserialize into a specified type
     /// # Errors

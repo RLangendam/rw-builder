@@ -21,7 +21,7 @@ where
     C: StreamCipher,
 {
     /// The inner builder it wraps
-    builder: B,
+    wrapped: B,
     /// The key used for encryption and decryption
     key: K,
     /// The nonce used for encryption and decryption
@@ -37,7 +37,7 @@ where
 {
     /// Create a new cipher builder from a key and a nonce
     pub const fn new(builder: B, key: K, nonce: N) -> Self {
-        Self { builder, key, nonce, _marker: PhantomData }
+        Self { wrapped: builder, key, nonce, _marker: PhantomData }
     }
 }
 
@@ -101,13 +101,13 @@ where
     type Writer = Writer<B::Writer, C>;
 
     fn reader(&self) -> Result<Self::Reader> {
-        let reader = self.builder.reader()?;
+        let reader = self.wrapped.reader()?;
         let cipher = self.create_cipher();
         Ok(Reader { cipher, reader })
     }
 
     fn writer(&self) -> Result<Self::Writer> {
-        let writer = self.builder.writer()?;
+        let writer = self.wrapped.writer()?;
         let cipher = self.create_cipher();
         Ok(Writer { cipher, writer })
     }
@@ -133,9 +133,7 @@ where
 {
     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
         let bytes_read = self.reader.read(buf)?;
-        self.cipher
-            .try_apply_keystream(buf)
-            .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+        self.cipher.try_apply_keystream(buf).map_err(std::io::Error::other)?;
         Ok(bytes_read)
     }
 }
@@ -160,9 +158,7 @@ where
 {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
         let mut buffer = buf.to_owned();
-        self.cipher
-            .try_apply_keystream(buffer.as_mut_slice())
-            .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+        self.cipher.try_apply_keystream(buffer.as_mut_slice()).map_err(std::io::Error::other)?;
         self.writer.write(buffer.as_slice())
     }
 

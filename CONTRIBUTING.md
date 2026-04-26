@@ -19,14 +19,14 @@ Thanks for your initiative to help improve this crate. We recommend you develop 
 
 Before you create a pull request make sure
 * clippy is happy: `cargo check` and `cargo clippy`.
-* all tests pass: `cargo test --all-features` and `cargo test-all-features`.
-  * The latter command requires you to have done `cargo install cargo-all-features`. It will test all relevant combinations of features as specified in the `package.metadata.cargo-all-features` section of `Cargo.toml`.
+* all tests pass: `cargo test --all-features` and `cargo all-features test`.
+  * The latter command requires you to have done `cargo install all-features`. It will test all relevant combinations of features as specified in the `package.metadata.cargo-all-features` section of `Cargo.toml`.
 * the code coverage has not deteriorated: `./test_coverage.sh`.
-  * Code coverage is currently only supported on Linux and requires the `llvm-tools` which you can install through `rustup component add llvm-tools-preview`.
+  * Code coverage is currently only supported on Linux and requires the `llvm-tools` which you can install through `rustup component add llvm-tools`. You also need to have `grcov` installed to be able to generate the coverage reporting: `cargo install grcov`
 * there are no spelling errors.
   * You can use the recommended 'Code Spell Checker' VSCode-plugin for that.
 * the code is formatted: `cargo fmt`.
-  * You can also use 'format on save' in VSCode. Make sure to use a nightly toolchain to be able to use all formatting options specified in `.rustfmt.toml`.
+  * You can also use 'format on save' in VSCode.
 
 ## Visual Studio Code
 
@@ -43,7 +43,7 @@ This crate is far from complete since there are many readers and writers out the
 
 ## Sources and Sinks
 
-Currently, this crate has several different sources, `FileBuilder`, `ProcessBuilder`, `TcpStreamBuilder` and `VecBuilder`, but only one sink, `BincodeBuilder`. It would be nice if more sources and sinks are added to increase the flexibility when using this crate.
+Currently, this crate has several different sources, `FileBuilder`, `ProcessBuilder`, `TcpStreamBuilder` and `VecBuilder`, but only one sink, `WincodeBuilder`. It would be nice if more sources and sinks are added to increase the flexibility when using this crate.
 
 ## Buffering
 

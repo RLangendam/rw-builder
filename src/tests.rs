@@ -99,11 +99,11 @@ fn process_child() {
     assert_eq!(builder.to_string(), "Hello world.\n");
 }
 
-#[cfg(feature = "bincode")]
+#[cfg(feature = "wincode")]
 #[test]
-fn bincode() {
-    let builder = VecBuilder::default().bincode();
-    let text = "This string is serialized and deserialized using bincode.";
+fn wincode() {
+    let builder = VecBuilder::default().wincode();
+    let text = "This string is serialized and deserialized using wincode.";
     builder.save(&text).expect("Serialization failed.");
     let actual: String = builder.load().expect("Deserialization failed.");
     assert_eq!(actual, text);

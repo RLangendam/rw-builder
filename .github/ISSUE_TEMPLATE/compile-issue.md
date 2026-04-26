@@ -9,8 +9,8 @@ assignees: ''
 
 # Common issues
 
-**Problem**: `BincodeBuilder`
+**Problem**: `WincodeBuilder`
 
 **Quick solution**: `cargo update`
 
-**Details**: This happens when multiple versions of the `bincode` crate are in use. Check your `Cargo.lock` file for all versions of `bincode`.
+**Details**: This happens when multiple versions of the `wincode` crate are in use. Check your `Cargo.lock` file for all versions of `wincode`.

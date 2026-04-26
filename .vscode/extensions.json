@@ -1,11 +1,18 @@
 {
     "recommendations": [
         "rust-lang.rust-analyzer",
-        "serayuzgur.crates",
         "tamasfe.even-better-toml",
         "streetsidesoftware.code-spell-checker",
         "ryanluker.vscode-coverage-gutters",
         "yzhang.markdown-all-in-one",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "dustypomerleau.rust-syntax",
+        "fill-labs.dependi",
+        "jinxdash.prettier-rust",
+        "swellaby.vscode-rust-test-adapter",
+        "vadimcn.vscode-lldb",
+        "jscearcy.rust-doc-viewer",
+        "polymeilex.rust-targets",
+        "panicbit.cargo"
     ]
 }

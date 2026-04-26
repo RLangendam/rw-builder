@@ -16,13 +16,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@stable
       - run: cargo install cargo-deadlinks
       - name: doc (rand)
         env:
           RUSTDOCFLAGS: --cfg doc_cfg
         # --all builds all crates, but with default features for other crates (okay in this case)
-        run: cargo deadlinks --ignore-fragments -- --all --features bincode,chacha20,flate2,salsa20
+        run: cargo deadlinks --ignore-fragments -- --all --features wincode,chacha20,flate2,salsa20
 
   test:
     runs-on: ${{ matrix.os }}
@@ -31,33 +31,21 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            deps: cargo install cargo-all-features
+            deps: cargo install all-features
             target: x86_64-unknown-linux-gnu
             toolchain: stable
-          - os: ubuntu-latest
-            deps: cargo install cargo-all-features
-            target: x86_64-unknown-linux-gnu
-            toolchain: nightly
           - os: macos-latest
-            deps: cargo install cargo-all-features
+            deps: cargo install all-features
             target: x86_64-apple-darwin
             toolchain: stable
           - os: windows-latest
-            deps: cargo install cargo-all-features
+            deps: cargo install all-features
             target: x86_64-pc-windows-gnu
             toolchain: stable
-          - os: windows-latest
-            deps: cargo install cargo-all-features
-            target: x86_64-pc-windows-msvc
-            toolchain: beta
-          - os: windows-latest
-            deps: cargo install cargo-all-features
-            target: x86_64-pc-windows-msvc
-            toolchain: nightly
           - os: ubuntu-latest
-            deps: sudo apt-get update ; sudo apt install gcc-multilib ; cargo install cargo-all-features
+            deps: sudo apt-get update ; sudo apt install gcc-multilib ; cargo install all-features
             target: i686-unknown-linux-gnu
-            toolchain: nightly
+            toolchain: stable
 
     steps:
       - uses: actions/checkout@v3
@@ -77,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@stable
         with:
             target: aarch64-apple-ios
       - name: Build top-level only

@@ -31,7 +31,8 @@ impl RwBuilder for Builder {
     }
 
     fn writer(&self) -> Result<Self::Writer> {
-        let options = OpenOptions::new().create(true).write(true).open(&self.path)?;
+        let options =
+            OpenOptions::new().create(true).truncate(true).write(true).open(&self.path)?;
         Ok(options)
     }
 }
