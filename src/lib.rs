@@ -97,14 +97,16 @@ pub use process::Builder as ProcessBuilder;
 
 /// Provides several wrapper types around the streaming cipher algorithms
 /// provided by the flate2 crate.
-#[cfg(any(feature = "chacha20", feature = "salsa20"))]
+#[cfg(any(feature = "chacha20", feature = "salsa20", feature = "aes_ctr"))]
 mod stream_cipher;
 #[cfg(feature = "chacha20")]
 pub use stream_cipher::{ChaCha20Builder, ChaCha20Key, ChaCha20Nonce};
 #[cfg(feature = "salsa20")]
 pub use stream_cipher::{Salsa20Builder, Salsa20Key, Salsa20Nonce};
 #[cfg(feature = "aes_ctr")]
-pub use stream_cipher::{Aes128CtrBuilder, Aes128Key, Aes256CtrBuilder, Aes256Key, AesNonce};
+pub use stream_cipher::{
+    Aes128Ctr, Aes128CtrBuilder, Aes128Key, Aes256Ctr, Aes256CtrBuilder, Aes256Key, AesNonce,
+};
 
 /// Provides the `StringBuilder` type which is a sink without serde
 mod string;
@@ -143,6 +145,10 @@ pub use crate::lz4_flex::Lz4Builder;
 mod digest;
 #[cfg(feature = "digest")]
 pub use crate::digest::{DigestBuilder, DigestReader, DigestWriter};
+#[cfg(feature = "sha2")]
+pub use crate::digest::{Sha256Builder, Sha512Builder};
+#[cfg(feature = "sha3")]
+pub use crate::digest::{Sha3_256Builder, Sha3_512Builder};
 
 /// Provides the `Crc32FastBuilder` wrapper around the `crc32fast` algorithm.
 #[cfg(feature = "crc32fast")]
@@ -150,7 +156,7 @@ mod crc32fast;
 #[cfg(feature = "crc32fast")]
 pub use crate::crc32fast::{Crc32FastBuilder, Crc32FastReader, Crc32FastWriter};
 
-/// Provides the `Builder` for `rmp-serde` (MessagePack serialization/deserialization).
+/// Provides the `Builder` for `rmp-serde` (`MessagePack` serialization/deserialization).
 #[cfg(feature = "rmp_serde")]
 pub mod rmp_serde;
 
@@ -270,13 +276,37 @@ pub trait RwBuilderExt: RwBuilder {
         DigestBuilder::new(self)
     }
 
+    /// Computes a SHA256 hash while reading and writing.
+    #[cfg(feature = "sha2")]
+    fn sha256(self) -> Sha256Builder<Self> {
+        DigestBuilder::new(self)
+    }
+
+    /// Computes a SHA512 hash while reading and writing.
+    #[cfg(feature = "sha2")]
+    fn sha512(self) -> Sha512Builder<Self> {
+        DigestBuilder::new(self)
+    }
+
+    /// Computes a SHA3-256 hash while reading and writing.
+    #[cfg(feature = "sha3")]
+    fn sha3_256(self) -> Sha3_256Builder<Self> {
+        DigestBuilder::new(self)
+    }
+
+    /// Computes a SHA3-512 hash while reading and writing.
+    #[cfg(feature = "sha3")]
+    fn sha3_512(self) -> Sha3_512Builder<Self> {
+        DigestBuilder::new(self)
+    }
+
     /// Computes a CRC32 checksum using the `crc32fast` crate while reading and writing.
     #[cfg(feature = "crc32fast")]
     fn crc32fast(self) -> Crc32FastBuilder<Self> {
         Crc32FastBuilder::new(self)
     }
 
-    /// Sink that loads and saves values using `rmp-serde` (MessagePack).
+    /// Sink that loads and saves values using `rmp-serde` (`MessagePack`).
     #[cfg(feature = "rmp_serde")]
     fn rmp_serde(self) -> rmp_serde::Builder<Self> {
         rmp_serde::Builder::new(self)

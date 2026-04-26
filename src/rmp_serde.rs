@@ -2,13 +2,14 @@ use crate::{Result, RwBuilder};
 use serde::{de::DeserializeOwned, Serialize};
 
 /// Type returned by the `rmp_serde` function on the `RwBuilderExt` trait.
-/// It acts as a sink/source for serde operations using MessagePack.
+/// It acts as a sink/source for serde operations using `MessagePack`.
 #[derive(Debug)]
 #[must_use]
 pub struct Builder<B>
 where
     B: RwBuilder,
 {
+    /// Inner builder
     builder: B,
 }
 
@@ -28,13 +29,17 @@ where
     B::Reader: std::io::Read,
     B::Writer: std::io::Write,
 {
-    /// Load an item by executing the configured reader chain and decoding via MessagePack
+    /// Load an item by executing the configured reader chain and decoding via `MessagePack`
+    /// # Errors
+    /// Returns an error if the underlying reader fails or if the deserialization fails.
     pub fn load<T: DeserializeOwned>(&self) -> Result<T> {
         let reader = self.builder.reader()?;
         rmp_serde::from_read(reader).map_err(|e| crate::error::Error::Other(e.to_string()))
     }
 
-    /// Save an item by executing the configured writer chain and encoding via MessagePack
+    /// Save an item by executing the configured writer chain and encoding via `MessagePack`
+    /// # Errors
+    /// Returns an error if the underlying writer fails or if the serialization fails.
     pub fn save<T: Serialize>(&self, item: &T) -> Result<()> {
         let mut writer = self.builder.writer()?;
         rmp_serde::encode::write(&mut writer, item).map_err(|e| crate::error::Error::Other(e.to_string()))

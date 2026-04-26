@@ -21,7 +21,8 @@ where
     feature = "salsa20",
     feature = "zstd",
     feature = "bzip2",
-    feature = "lz4_flex"
+    feature = "lz4_flex",
+    feature = "aes_ctr"
 ))]
 fn test_string<B>(builder: B)
 where
@@ -152,4 +153,44 @@ fn roundtrip_combinations() {
     builder.save(&text).expect("Complex serialization failed.");
     let actual: String = builder.load().expect("Complex deserialization failed.");
     assert_eq!(actual, text);
+}
+
+#[cfg(feature = "aes_ctr")]
+#[test]
+fn aes128_ctr() {
+    let key = [0x42; 16];
+    let nonce = [0x24; 16];
+    test_string(VecBuilder::default().aes128_ctr(key.into(), nonce.into()));
+}
+
+#[cfg(feature = "rmp_serde")]
+#[test]
+fn rmp_serde() {
+    let builder = VecBuilder::default().rmp_serde();
+    let text = "This string is serialized and deserialized using rmp-serde.";
+    builder.save(&text).expect("Serialization failed.");
+    let actual: String = builder.load().expect("Deserialization failed.");
+    assert_eq!(actual, text);
+}
+
+#[cfg(feature = "sha2")]
+#[test]
+fn sha256_hash() {
+    use std::io::{Read, Write};
+    let data = b"hello world";
+    let builder = VecBuilder::default().sha256();
+    {
+        let mut writer = builder.writer().unwrap();
+        writer.write_all(data).unwrap();
+        let hash = writer.finalize();
+        assert_eq!(format!("{:x}", hash), "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+    }
+    {
+        let mut reader = builder.reader().unwrap();
+        let mut buffer = Vec::new();
+        let _bytes = reader.read_to_end(&mut buffer).unwrap();
+        let hash = reader.finalize();
+        assert_eq!(format!("{:x}", hash), "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9");
+        assert_eq!(buffer, data);
+    }
 }

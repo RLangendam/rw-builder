@@ -8,6 +8,7 @@ pub struct Crc32FastBuilder<B>
 where
     B: RwBuilder,
 {
+    /// Inner builder
     builder: B,
 }
 
@@ -42,7 +43,9 @@ where
 /// A reader wrapper that computes a CRC32 checksum
 #[derive(Debug)]
 pub struct Crc32FastReader<R: Read> {
+    /// Inner reader
     inner: R,
+    /// Hasher instance
     hasher: crc32fast::Hasher,
 }
 
@@ -69,7 +72,9 @@ impl<R: Read> Read for Crc32FastReader<R> {
 /// A writer wrapper that computes a CRC32 checksum
 #[derive(Debug)]
 pub struct Crc32FastWriter<W: Write> {
+    /// Inner writer
     inner: W,
+    /// Hasher instance
     hasher: crc32fast::Hasher,
 }
 

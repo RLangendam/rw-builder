@@ -70,20 +70,27 @@ pub type Salsa20Nonce = salsa20::Nonce;
 #[cfg(feature = "salsa20")]
 pub type Salsa20Builder<B> = Builder<B, Salsa20, Salsa20Key, Salsa20Nonce>;
 
+/// Internal type for AES-128-CTR cipher
 #[cfg(feature = "aes_ctr")]
 pub type Aes128Ctr = Ctr128BE<Aes128>;
+/// Internal type for AES-256-CTR cipher
 #[cfg(feature = "aes_ctr")]
 pub type Aes256Ctr = Ctr128BE<Aes256>;
 
+/// The key type for the AES-128-CTR cipher
 #[cfg(feature = "aes_ctr")]
-pub type Aes128Key = cipher::generic_array::GenericArray<u8, cipher::typenum::U16>;
+pub type Aes128Key = [u8; 16];
+/// The key type for the AES-256-CTR cipher
 #[cfg(feature = "aes_ctr")]
-pub type Aes256Key = cipher::generic_array::GenericArray<u8, cipher::typenum::U32>;
+pub type Aes256Key = [u8; 32];
+/// The nonce type for AES-CTR cipher
 #[cfg(feature = "aes_ctr")]
-pub type AesNonce = cipher::generic_array::GenericArray<u8, cipher::typenum::U16>;
+pub type AesNonce = [u8; 16];
 
+/// The type returned by the `aes128_ctr` function in the `RwBuilder` trait
 #[cfg(feature = "aes_ctr")]
 pub type Aes128CtrBuilder<B> = Builder<B, Aes128Ctr, Aes128Key, AesNonce>;
+/// The type returned by the `aes256_ctr` function in the `RwBuilder` trait
 #[cfg(feature = "aes_ctr")]
 pub type Aes256CtrBuilder<B> = Builder<B, Aes256Ctr, Aes256Key, AesNonce>;
 
@@ -120,7 +127,7 @@ where
     B: RwBuilder,
 {
     fn create_cipher(&self) -> Aes128Ctr {
-        Aes128Ctr::new(&self.key, &self.nonce)
+        Aes128Ctr::new((&self.key).into(), (&self.nonce).into())
     }
 }
 
@@ -130,7 +137,7 @@ where
     B: RwBuilder,
 {
     fn create_cipher(&self) -> Aes256Ctr {
-        Aes256Ctr::new(&self.key, &self.nonce)
+        Aes256Ctr::new((&self.key).into(), (&self.nonce).into())
     }
 }
 
