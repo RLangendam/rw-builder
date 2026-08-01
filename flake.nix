@@ -50,6 +50,7 @@
               rustToolchain.rustfmt
               rustToolchain.clippy
               rustToolchain.rust-src
+              rustToolchain.llvm-tools-preview
             ])
             pkg-config
             openssl
