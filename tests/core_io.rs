@@ -25,9 +25,18 @@ fn process_stdout() {
 #[cfg(target_os = "linux")]
 #[test]
 fn process_child() {
-    use rw_builder::AdhocWriter;
+    use rw_builder::{AdhocWriter, RwBuilder};
     let command = Command::new("tee");
     let builder = ProcessBuilder::new(command).spawn().expect("Couldn't spawn process").string();
     builder.write_string("Hello world.\n").expect("Couldn't write string.");
     assert_eq!(builder.to_string(), "Hello world.\n");
+
+    // Test error paths when reader/writer called twice on ChildBuilder
+    let cmd = Command::new("cat");
+    let child_builder = ProcessBuilder::new(cmd).spawn().expect("Failed to spawn");
+    let _r1 = child_builder.reader().expect("First reader ok");
+    assert!(child_builder.reader().is_err());
+
+    let _w1 = child_builder.writer().expect("First writer ok");
+    assert!(child_builder.writer().is_err());
 }

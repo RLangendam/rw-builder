@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-01
+
+### Added
+- Dedicated integration tests for `TcpStreamBuilder` using loopback TCP socket listener.
+- Comprehensive test coverage for `crc32fast`, `sha512`, `sha3_256`, `sha3_512`, `aes256_ctr`, and error paths in `ChildBuilder`.
+- Test assertions for `into_inner()`, `flush()`, and `Debug` trait implementations across digest, cipher, and serialization builders.
+- Multi-environment compatibility fix for `test_coverage.sh`.
+
+### Changed
+- Upgraded dependencies in `Cargo.toml`: `wincode` to 0.6.0, `flate2` to 1.1.9, `lz4_flex` to 0.14.0, `base64` to 0.23.0, `sha3` to 0.12.0, `crc32fast` to 1.5.0, `zstd` to 0.13.3, `aes` to 0.9.2, `cipher` to 0.5.2, `chacha20` to 0.10.1, `ctr` to 0.10.1, `digest` to 0.11.3, `rmp-serde` to 1.3.1, and `serde` to 1.0.219.
+
 ## [0.2.0] - 2026-04-27
 
 ### Added
