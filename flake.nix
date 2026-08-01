@@ -21,10 +21,10 @@
       let
         pkgs = import nixpkgs { inherit system; };
         
-        # Updated with the correct hash for the 1.89.0 manifest
+        # Updated with the correct hash for the 1.96.0 manifest
         rustToolchain = fenix.packages.${system}.toolchainOf {
-          channel = "1.89.0";
-          sha256 = "sha256-+9FmLhAOezBZCOziO0Qct1NOrfpjNsXxc/8I0c7BdKE=";
+          channel = "1.96.0";
+          sha256 = "sha256-mvUGEOHYJpn3ikC5hckneuGixaC+yGrkMM/liDIDgoU=";
         };
 
         naersk-lib = pkgs.callPackage naersk {
@@ -60,7 +60,7 @@
           ];
 
           shellHook = ''
-            echo "🦀 rw-builder development environment (Rust 1.89.0) loaded"
+            echo "🦀 rw-builder development environment (Rust 1.96.0) loaded"
             echo "Quality tools available: grcov, cargo-all-features, clippy"
           '';
         };
